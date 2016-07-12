@@ -18,6 +18,12 @@ type DB struct {
 	DBName  string
 }
 
+type User struct {
+	Name     string
+	Email    string
+	Password string
+}
+
 type Courses struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
 	Name        string
@@ -88,4 +94,13 @@ func GetQuestions(typ, path_json string) ([]Questions, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func CreateUser(user User, path_json string) error {
+	db, err := GetSession(path_json)
+	if err != nil {
+		return err
+	}
+	defer db.session.Close()
+	return db.session.DB(db.DBName).C("users").Insert(&user)
 }

@@ -78,3 +78,35 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+/*
+title: create user
+path: /users
+method: POST
+response:
+	201: user created
+	400: Invalid data
+	404: User not found
+	409: User already exists
+	500: Internal error
+*/
+type User struct {
+	Name     string
+	Email    string
+	Password string
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	user := User{
+		Name:     r.FormValue("name"),
+		Email:    r.FormValue("Email"),
+		Password: r.FormValue("password"),
+	}
+
+	if user.Name == "" || user.Email == "" || user.Password == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+
+	err := db.CreateUser(user, "")
+}
