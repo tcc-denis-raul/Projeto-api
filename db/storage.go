@@ -18,10 +18,23 @@ type DB struct {
 	DBName  string
 }
 
-func GetSession() (DB, error) {
+type Courses struct {
+	ID          bson.ObjectId `bson:"_id,omitempty"`
+	Name        string
+	Based       []string
+	PriceReal   []float64
+	PriceDolar  []float64
+	Dynamic     []string
+	Platform    []string
+	Url         string
+	Extra       []string
+	Description string
+}
+
+func GetSession(path_json string) (DB, error) {
 	host := DefaultDataBaseURL
 	name := DefaultDataBaseName
-	conf, err := conf.Conf("")
+	conf, err := conf.Conf(path_json)
 	if err != nil {
 		return DB{}, err
 	}
@@ -40,21 +53,8 @@ func GetSession() (DB, error) {
 	return DB{session, name}, nil
 }
 
-type Courses struct {
-	ID          bson.ObjectId `bson:"_id,omitempty"`
-	Name        string
-	Based       []string
-	PriceReal   []float64
-	PriceDolar  []float64
-	Dynamic     []string
-	Platform    []string
-	Url         string
-	Extra       []string
-	Description string
-}
-
-func GetCourses(typ, course string) ([]Courses, error) {
-	db, err := GetSession()
+func GetCourses(typ, course, path_json string) ([]Courses, error) {
+	db, err := GetSession(path_json)
 	if err != nil {
 		return nil, err
 	}

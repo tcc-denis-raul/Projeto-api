@@ -28,7 +28,7 @@ func GetCourses(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	courses, err := db.GetCourses(typ, course)
+	courses, err := db.GetCourses(typ, course, "")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
