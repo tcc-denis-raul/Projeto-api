@@ -13,22 +13,21 @@ type DatabaseType struct {
 	Name string `json:"name"`
 }
 
-type Collections struct {
-	LanguageIngles string `json:"language_ingles"`
-}
-
 type Configuration struct {
-	Database    DatabaseType `json:"database"`
-	Collections Collections  `json:"collections"`
+	Database DatabaseType `json:"database"`
 }
 
-func Conf() (Configuration, error) {
-	file, e := ioutil.ReadFile(fmt.Sprintf("%s/paloma.json", DefaultURLConf))
+func Conf(path_c string) (DatabaseType, error) {
+	path := DefaultURLConf
+	if path_c != "" {
+		path = path_c
+	}
+	file, e := ioutil.ReadFile(fmt.Sprintf("%s/paloma.json", path))
 	if e != nil {
 		fmt.Printf("File error: %v\n", e)
-		return Configuration{}, e
+		return DatabaseType{}, e
 	}
 	var conf Configuration
 	json.Unmarshal(file, &conf)
-	return conf, nil
+	return conf.Database, nil
 }
