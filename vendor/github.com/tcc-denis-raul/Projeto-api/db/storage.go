@@ -21,15 +21,15 @@ type DB struct {
 func GetSession() (DB, error) {
 	host := DefaultDataBaseURL
 	name := DefaultDataBaseName
-	conf, err := conf.Conf("")
+	conf, err := conf.Conf()
 	if err != nil {
 		return DB{}, err
 	}
 	if conf.Database.URL != "" {
-		host = conf.URL
+		host = conf.Database.URL
 	}
 	if conf.Database.Name != "" {
-		name = conf.Name
+		name = conf.Database.Name
 	}
 	session, err := mgo.Dial(host)
 	if err != nil {
