@@ -76,7 +76,7 @@ func GetCourses(typ, course, path_json string) ([]Courses, error) {
 	return data, nil
 }
 
-func GetQuestions(typ, course, path_json string) ([]Questions, error) {
+func GetQuestions(typ, path_json string) ([]Questions, error) {
 	db, err := GetSession(path_json)
 	if err != nil {
 		return nil, err

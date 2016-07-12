@@ -57,14 +57,13 @@ response:
 */
 func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	typ := r.FormValue("type")
-	course := r.FormValue("course")
 
-	if typ == "" || course == "" {
+	if typ == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
 
-	questions, err := db.GetQuestions(typ, course, "")
+	questions, err := db.GetQuestions(typ, "")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
