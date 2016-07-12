@@ -48,13 +48,13 @@ func (s *StorageTest) TestGetSessionWrongPath(c *C) {
 	c.Check(db.session, IsNil)
 }
 
-// func (s *StorageTest) TestGetSessionWrongURL(c *C) {
-// 	db, err := GetSession("wrong_test")
-// 	c.Check(err, NotNil)
-// 	c.Check(err.Error(), Equals, "no reachable servers")
-// 	c.Check(db.DBName, Equals, "")
-// 	c.Check(db.session, IsNil)
-// }
+func (s *StorageTest) TestGetSessionWrongURL(c *C) {
+	db, err := GetSession("wrong_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "no reachable servers")
+	c.Check(db.DBName, Equals, "")
+	c.Check(db.session, IsNil)
+}
 
 func (s *StorageTest) TestGetCoursesEmptyList(c *C) {
 	data, err := GetCourses("language", "ingles", "data_test")
@@ -124,6 +124,61 @@ func (s *StorageTest) TestGetCoursesWrongPath(c *C) {
 
 func (s *StorageTest) TestGetCoursesWrongURLDDB(c *C) {
 	data, err := GetCourses("language", "ingles", "wrong_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "no reachable servers")
+	c.Check(len(data), Equals, 0)
+}
+
+func (s *StorageTest) TestGetQuestionsEmptyList(c *C) {
+	data, err := GetQuestions("language", "ingles", "data_test")
+	c.Check(err, IsNil)
+	c.Check(len(data), Equals, 0)
+}
+
+func (s *StorageTest) TestGetQuestionsReturnList(c *C) {
+	questions := []Questions{
+		{
+			Based: []map[string]string{
+				{"texto": "Textos"},
+			},
+			Price: []map[string]string{
+				{"gratis": "Grátis"},
+			},
+			Dynamic: []map[string]string{
+				{"curso_livre": "Curso Livre"},
+			},
+			Platform: []map[string]string{
+				{"android_offline": "Android - Offline"},
+			},
+			Extra: []map[string]string{
+				{"selecao_nivel": "Seleção de Nível de conhecimento"},
+			},
+		},
+	}
+	for _, question := range questions {
+		err := s.session.DB(s.dbName).C("questions_language").Insert(&question)
+		c.Check(err, IsNil)
+		defer s.session.DB(s.dbName).C("questions_language").Remove(nil)
+	}
+	data, err := GetQuestions("language", "ingles", "data_test")
+	c.Check(err, IsNil)
+	c.Check(len(data), Equals, 1)
+	c.Check(data[0].Based, DeepEquals, questions[0].Based)
+	c.Check(data[0].Price, DeepEquals, questions[0].Price)
+	c.Check(data[0].Dynamic, DeepEquals, questions[0].Dynamic)
+	c.Check(data[0].Platform, DeepEquals, questions[0].Platform)
+	c.Check(data[0].Extra, DeepEquals, questions[0].Extra)
+}
+
+func (s *StorageTest) TestGetQuestionsWrongPath(c *C) {
+	data, err := GetQuestions("language", "ingles", "data")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "open data/paloma.json: no such file or directory")
+	c.Check(len(data), Equals, 0)
+}
+
+func (s *StorageTest) TestGetQuestionsWrongURLDDB(c *C) {
+	data, err := GetQuestions("language", "ingles", "wrong_test")
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "no reachable servers")
 	c.Check(len(data), Equals, 0)

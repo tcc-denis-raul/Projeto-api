@@ -31,6 +31,15 @@ type Courses struct {
 	Description string
 }
 
+type Questions struct {
+	ID       bson.ObjectId `bson:"_id,omitempty"`
+	Based    []map[string]string
+	Price    []map[string]string
+	Dynamic  []map[string]string
+	Platform []map[string]string
+	Extra    []map[string]string
+}
+
 func GetSession(path_json string) (DB, error) {
 	host := DefaultDataBaseURL
 	name := DefaultDataBaseName
@@ -61,6 +70,20 @@ func GetCourses(typ, course, path_json string) ([]Courses, error) {
 	defer db.session.Close()
 	var data []Courses
 	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Find(nil).All(&data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func GetQuestions(typ, course, path_json string) ([]Questions, error) {
+	db, err := GetSession(path_json)
+	if err != nil {
+		return nil, err
+	}
+	defer db.session.Close()
+	var data []Questions
+	err = db.session.DB(db.DBName).C(fmt.Sprintf("questions_%s", typ)).Find(nil).All(&data)
 	if err != nil {
 		return nil, err
 	}
