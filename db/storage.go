@@ -25,10 +25,10 @@ func GetSession() (DB, error) {
 	if err != nil {
 		return DB{}, err
 	}
-	if conf.Database.URL != "" {
+	if conf.URL != "" {
 		host = conf.URL
 	}
-	if conf.Database.Name != "" {
+	if conf.Name != "" {
 		name = conf.Name
 	}
 	session, err := mgo.Dial(host)
