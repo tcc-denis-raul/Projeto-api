@@ -53,10 +53,6 @@ type Courses struct {
 	Description string
 }
 
-/*
-INPUT: type and course
-OUTPUT: list of all courses of type and course
-*/
 func GetCourses(typ, course string) ([]Courses, error) {
 	db, err := GetSession()
 	if err != nil {

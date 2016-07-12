@@ -2,8 +2,5 @@
       "database": {
          "url": "192.168.99.100",
          "name": "paloma"       
-      },
-      "collections": {
-         "language_ingles": "language_ingles"
       }
 }
