@@ -130,7 +130,7 @@ func (s *StorageTest) TestGetCoursesWrongURLDDB(c *C) {
 }
 
 func (s *StorageTest) TestGetQuestionsEmptyList(c *C) {
-	data, err := GetQuestions("language", "ingles", "data_test")
+	data, err := GetQuestions("language", "data_test")
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 0)
 }
@@ -160,7 +160,7 @@ func (s *StorageTest) TestGetQuestionsReturnList(c *C) {
 		c.Check(err, IsNil)
 		defer s.session.DB(s.dbName).C("questions_language").Remove(nil)
 	}
-	data, err := GetQuestions("language", "ingles", "data_test")
+	data, err := GetQuestions("language", "data_test")
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 1)
 	c.Check(data[0].Based, DeepEquals, questions[0].Based)
@@ -171,15 +171,69 @@ func (s *StorageTest) TestGetQuestionsReturnList(c *C) {
 }
 
 func (s *StorageTest) TestGetQuestionsWrongPath(c *C) {
-	data, err := GetQuestions("language", "ingles", "data")
+	data, err := GetQuestions("language", "data")
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "open data/paloma.json: no such file or directory")
 	c.Check(len(data), Equals, 0)
 }
 
 func (s *StorageTest) TestGetQuestionsWrongURLDDB(c *C) {
-	data, err := GetQuestions("language", "ingles", "wrong_test")
+	data, err := GetQuestions("language", "wrong_test")
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "no reachable servers")
 	c.Check(len(data), Equals, 0)
+}
+
+func (s *StorageTest) TestCreateUser(c *C) {
+	user := User{
+		Name:     "name",
+		Email:    "email",
+		Password: "pass",
+	}
+	err := user.CreateUser("data_test")
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"email": "email"})
+	var u []User
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, user.Name)
+	c.Check(u[0].Email, Equals, user.Email)
+	c.Check(u[0].Password, Equals, user.Password)
+}
+
+func (s *StorageTest) TestCreateUserWrongPath(c *C) {
+	var user User
+	err := user.CreateUser("data")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "open data/paloma.json: no such file or directory")
+}
+
+func (s *StorageTest) TestCreateUserWrongURLDDB(c *C) {
+	var user User
+	err := user.CreateUser("wrong_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "no reachable servers")
+}
+
+func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
+	user := User{
+		Name:     "name",
+		Email:    "email",
+		Password: "pass",
+	}
+	err := user.CreateUser("data_test")
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"email": "email"})
+	var u []User
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, user.Name)
+	c.Check(u[0].Email, Equals, user.Email)
+	c.Check(u[0].Password, Equals, user.Password)
+	err = user.CreateUser("data_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "E11000 duplicate key error collection: paloma_test.users index: email_1 dup key: { : \"email\" }")
+
 }

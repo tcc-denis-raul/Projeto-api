@@ -86,18 +86,10 @@ method: POST
 response:
 	201: user created
 	400: Invalid data
-	404: User not found
 	409: User already exists
-	500: Internal error
 */
-type User struct {
-	Name     string
-	Email    string
-	Password string
-}
-
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	user := User{
+	user := db.User{
 		Name:     r.FormValue("name"),
 		Email:    r.FormValue("Email"),
 		Password: r.FormValue("password"),
@@ -108,5 +100,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := db.CreateUser(user, "")
+	err := user.CreateUser("")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+	}
+	w.WriteHeader(http.StatusCreated)
 }

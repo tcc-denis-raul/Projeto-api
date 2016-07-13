@@ -96,11 +96,11 @@ func GetQuestions(typ, path_json string) ([]Questions, error) {
 	return data, nil
 }
 
-func CreateUser(user User, path_json string) error {
+func (u *User) CreateUser(path_json string) error {
 	db, err := GetSession(path_json)
 	if err != nil {
 		return err
 	}
 	defer db.session.Close()
-	return db.session.DB(db.DBName).C("users").Insert(&user)
+	return db.session.DB(db.DBName).C("users").Insert(u)
 }
