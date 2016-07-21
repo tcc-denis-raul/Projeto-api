@@ -235,5 +235,79 @@ func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
 	err = user.CreateUser("data_test")
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "E11000 duplicate key error collection: paloma_test.users index: email_1 dup key: { : \"email\" }")
+}
 
+func (s *StorageTest) TestUpdateUser(c *C) {
+	user := User{
+		Name:     "name",
+		Email:    "email",
+		Password: "pass",
+	}
+	err := user.CreateUser("data_test")
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"email": "email"})
+	var u []User
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, user.Name)
+	c.Check(u[0].Email, Equals, user.Email)
+	c.Check(u[0].Password, Equals, user.Password)
+	updateData := User{
+		Email:    "email",
+		Name:     "name_mod",
+		Password: "pass_mod",
+	}
+	err = updateData.UpdateUser("data_test")
+	c.Check(err, IsNil)
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, updateData.Name)
+	c.Check(u[0].Email, Equals, updateData.Email)
+	c.Check(u[0].Password, Equals, updateData.Password)
+}
+
+func (s *StorageTest) TestUpdateUser(c *C) {
+	user := User{
+		Name:     "name",
+		Email:    "email",
+		Password: "pass",
+	}
+	err := user.CreateUser("data_test")
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"email": "email"})
+	var u []User
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, user.Name)
+	c.Check(u[0].Email, Equals, user.Email)
+	c.Check(u[0].Password, Equals, user.Password)
+	updateData := User{
+		Email:    "email",
+		Name:     "name_mod",
+		Password: "pass_mod",
+	}
+	err = updateData.UpdateUser("data_test")
+	c.Check(err, IsNil)
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 1)
+	c.Check(u[0].Name, Equals, updateData.Name)
+	c.Check(u[0].Email, Equals, updateData.Email)
+	c.Check(u[0].Password, Equals, updateData.Password)
+}
+
+func (s *StorageTest) TestUpdateUserNotExists(c *C) {
+	var u []User
+	err = s.session.DB(s.dbName).C("users").Find(bson.M{"email": "email"}).All(&u)
+	c.Check(err, IsNil)
+	c.Check(len(u), Equals, 0)
+	// c.Check(u[0].Name, Equals, user.Name)
+	// c.Check(u[0].Email, Equals, user.Email)
+	// c.Check(u[0].Password, Equals, user.Password)
+	// err = user.CreateUser("data_test")
+	// c.Check(err, NotNil)
+	// c.Check(err.Error(), Equals, "E11000 duplicate key error collection: paloma_test.users index: email_1 dup key: { : \"email\" }")
 }

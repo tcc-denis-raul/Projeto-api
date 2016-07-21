@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/tcc-denis-raul/Projeto-api/db"
 )
@@ -91,8 +92,9 @@ response:
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := db.User{
 		Name:     r.FormValue("name"),
-		Email:    r.FormValue("Email"),
+		Email:    r.FormValue("email"),
 		Password: r.FormValue("password"),
+		Created:  time.Now(),
 	}
 
 	if user.Name == "" || user.Email == "" || user.Password == "" {
@@ -103,6 +105,37 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	err := user.CreateUser("")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
+		return
 	}
 	w.WriteHeader(http.StatusCreated)
+
+}
+
+/*
+title: update user
+path: /users/update
+method: POST
+response:
+	200: user updated
+	400: Invalid data
+	404: user not found
+*/
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	user := db.User{
+		Name:     r.FormValue("name"),
+		Email:    r.FormValue("email"),
+		Password: r.FormValue("password"),
+	}
+
+	if user.Name == "" || (user.Email == "" && user.Password == "") {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+
+	err := user.UpdateUser("")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }
