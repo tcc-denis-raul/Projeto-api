@@ -4,7 +4,9 @@ Servidor web escrita em go
 
 Instalando depencias:
 =====================
-- go get dependencias
+- export GO15VENDOREXPERIMENT=1
+- Make deps
+- Obs. A pasta precisa estar no diretório $GOPATH
 
 Executando:
 ===========
