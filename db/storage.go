@@ -100,6 +100,17 @@ func GetQuestions(typ, path_json string) ([]Questions, error) {
 	return data, nil
 }
 
+func (u *User) GetUser(path_json string) (User, error) {
+	db, err := GetSession(path_json)
+	if err != nil {
+		return User{}, err
+	}
+	defer db.session.Close()
+	var user User
+	err = db.session.DB(db.DBName).C("users").Find(bson.M{"email": u.Email}).One(&u)
+	return user, err
+}
+
 func (u *User) CreateUser(path_json string) error {
 	db, err := GetSession(path_json)
 	if err != nil {

@@ -43,6 +43,7 @@ func GetCourses(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(courses); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+	w.WriteHeader(http.StatusOK)
 }
 
 /*
@@ -78,7 +79,39 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(questions); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+	w.WriteHeader(http.StatusOK)
 
+}
+
+/*
+title: get user
+path: /users
+method: GET
+response:
+	200: information about a user
+	400: Invalid data
+	409: User already exists
+*/
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	email := r.FormValue("email")
+	if email != "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+	user := db.User{
+		user.Email: email,
+	}
+	u, err := user.GetUser("")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err := json.NewEncoder(w).Encode(u); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.WriteHeader(http.StatusOK)
 }
 
 /*
@@ -162,7 +195,7 @@ func Feedback(w http.ResponseWriter, r *http.Request) {
 	}
 	rate, err := strconv.Atoi(vote)
 	if err != nil {
-		http.Error(w, "Invalid data, vote must be a integer", http.StatusBadRequest)
+		http.Error(w, "Invalid data, rate must be a integer", http.StatusBadRequest)
 		return
 	}
 	course.Rate = rate
