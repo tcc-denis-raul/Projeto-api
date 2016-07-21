@@ -1,11 +1,9 @@
-remove_deps:
-	@rm -rf $(GOPATH)/src/github.com/tcc-denis-raul
+deps: 
+	govendor update +local
+	govendor update +external
 
-deps: remove_deps
-	go get -d ./...
-
-start: deps
-	./run.sh
+start:
+	go run api/*.go
 
 test:
 	go test ./...
