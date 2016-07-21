@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"Projeto-api/db"
@@ -133,6 +134,40 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := user.UpdateUser("")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+/*
+title: feedback
+path: /feedback
+method: POST
+reponse:
+	200: feedback ok
+	400: invalid data
+	404: course not found
+*/
+func Feedback(w http.ResponseWriter, r *http.Request) {
+	var course db.Courses
+	t := r.FormValue("type")
+	c := r.FormValue("course")
+	vote := r.FormValue("vote")
+	name := r.FormValue("name")
+	if t == "" || c == "" || vote == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+	rate, err := strconv.Atoi(vote)
+	if err != nil {
+		http.Error(w, "Invalid data, vote must be a integer", http.StatusBadRequest)
+		return
+	}
+	course.Rate = rate
+	course.Name = name
+	err = course.Feedback(t, c, "")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return

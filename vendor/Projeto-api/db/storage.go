@@ -38,6 +38,7 @@ type Courses struct {
 	Url         string
 	Extra       []string
 	Description string
+	Rate        int
 }
 
 type Questions struct {
@@ -128,4 +129,15 @@ func (u *User) UpdateUser(path_json string) error {
 		updateData.LastAcess = u.LastAcess
 	}
 	return db.session.DB(db.DBName).C("users").Update(bson.M{"email": u.Email}, bson.M{"$set": updateData})
+}
+
+//TODO: increment the value of rate instead of change the default value
+func (c *Courses) Feedback(typ, course, path_json string) error {
+	db, err := GetSession(path_json)
+	if err != nil {
+		return err
+	}
+	defer db.session.Close()
+	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$inc": bson.M{"rate": c.Rate}})
+
 }
