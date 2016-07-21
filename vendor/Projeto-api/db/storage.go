@@ -115,6 +115,9 @@ func (u *User) UpdateUser(path_json string) error {
 	}
 	defer db.session.Close()
 	var updateData User
+	if u.Name != "" {
+		updateData.Name = u.Name
+	}
 	if u.Email != "" {
 		updateData.Email = u.Email
 	}
