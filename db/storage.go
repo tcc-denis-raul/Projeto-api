@@ -138,5 +138,4 @@ func (c *Courses) Feedback(typ, course, path_json string) error {
 	}
 	defer db.session.Close()
 	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$inc": bson.M{"rate": c.Rate}})
-
 }
