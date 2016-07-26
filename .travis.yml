@@ -1,10 +1,17 @@
 language: go
 
+go:
+  - 1.5.4
+  - 1.6.3
+  - 1.7rc3
+  - tip
+
 services:
   - mongodb
 
-install:
-  - echo y | pecl install mongo
+matrix:
+  allow_failures:
+    - go: tip
 
 script:
   - make test
