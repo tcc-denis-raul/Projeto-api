@@ -6,6 +6,12 @@ go:
   - 1.7rc3
   - tip
 
+env:
+  global:
+    - GOARCH=amd64
+    - GO15VENDOREXPERIMENT=1
+    - GO_FOR_RELEASE=1.6.3
+
 services:
   - mongodb
 
