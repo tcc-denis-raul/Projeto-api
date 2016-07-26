@@ -1,0 +1,10 @@
+language: go
+
+services:
+  - mongodb
+
+install:
+  - echo y | pecl install mongo
+
+script:
+  - make test
