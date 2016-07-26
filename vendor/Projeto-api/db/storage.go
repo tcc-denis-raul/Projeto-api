@@ -100,6 +100,17 @@ func GetQuestions(typ, path_json string) ([]Questions, error) {
 	return data, nil
 }
 
+func (u *User) GetUser(path_json string) (User, error) {
+	db, err := GetSession(path_json)
+	if err != nil {
+		return User{}, err
+	}
+	defer db.session.Close()
+	var user User
+	err = db.session.DB(db.DBName).C("users").Find(bson.M{"email": u.Email}).One(&u)
+	return user, err
+}
+
 func (u *User) CreateUser(path_json string) error {
 	db, err := GetSession(path_json)
 	if err != nil {
@@ -131,7 +142,6 @@ func (u *User) UpdateUser(path_json string) error {
 	return db.session.DB(db.DBName).C("users").Update(bson.M{"email": u.Email}, bson.M{"$set": updateData})
 }
 
-//TODO: increment the value of rate instead of change the default value
 func (c *Courses) Feedback(typ, course, path_json string) error {
 	db, err := GetSession(path_json)
 	if err != nil {
@@ -139,5 +149,4 @@ func (c *Courses) Feedback(typ, course, path_json string) error {
 	}
 	defer db.session.Close()
 	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$inc": bson.M{"rate": c.Rate}})
-
 }

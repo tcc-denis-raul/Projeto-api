@@ -100,7 +100,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user := db.User{
-		user.Email: email,
+		Email: email,
 	}
 	u, err := user.GetUser("")
 	if err != nil {

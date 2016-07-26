@@ -14,7 +14,8 @@ type Routes []Route
 var routes = Routes{
 	Route{"GetCourses", "GET", "/courses", GetCourses},
 	Route{"GetQuestions", "GET", "/courses/questions", GetQuestions},
+	Route{"GetUser", "GET", "/users", GetUser},
 	Route{"CreateUser", "POST", "/users", CreateUser},
 	Route{"UpdateUser", "POST", "/users/update", UpdateUser},
-	Route{"Feedback", "POST", "/feedback", Feedback},
+	Route{"Feedback", "POST", "/course/feedback", Feedback},
 }

@@ -11,9 +11,14 @@ _deps:
 
 deps: remove_deps _deps clean_deps_invalid
 
-start: deps
-	go run api/*.go
+run:
+	build/projeto-api
+
+start: deps build run
 
 test: clean_deps_invalid
 	go test ./...
+
+build:
+	go build -o build/projeto-api api/*
 
