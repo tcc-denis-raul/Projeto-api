@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DefaultDataBaseURL  = "127.0.0.1:27017"
+	DefaultDataBaseURL  = "localhost:27017"
 	DefaultDataBaseName = "paloma"
 )
 
