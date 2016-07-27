@@ -3,22 +3,22 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "rNH97R4FXmqnBO23qKUQmpMTorY=",
+			"checksumSHA1": "RfL+EmMdle6YFIuLNxLCy5IozxA=",
 			"path": "Projeto-api/api",
-			"revision": "07739e72c8333daa97aca04288bc4c999fc2ea47",
-			"revisionTime": "2016-07-21T17:45:43Z"
+			"revision": "536d4ad83aa76f8951bb7c0336513dc99ac1b48c",
+			"revisionTime": "2016-07-26T11:20:39Z"
 		},
 		{
 			"checksumSHA1": "P/NGIun9Li5FaXiSjhAGMWt0y20=",
 			"path": "Projeto-api/conf",
-			"revision": "07739e72c8333daa97aca04288bc4c999fc2ea47",
-			"revisionTime": "2016-07-21T17:45:43Z"
+			"revision": "536d4ad83aa76f8951bb7c0336513dc99ac1b48c",
+			"revisionTime": "2016-07-26T11:20:39Z"
 		},
 		{
-			"checksumSHA1": "eclcvu4MgzWzcn3s1aiHyi6QtC0=",
+			"checksumSHA1": "SIjq8MVmqRo1zMZ0iiFHUrQ5Mgg=",
 			"path": "Projeto-api/db",
-			"revision": "07739e72c8333daa97aca04288bc4c999fc2ea47",
-			"revisionTime": "2016-07-21T17:45:43Z"
+			"revision": "536d4ad83aa76f8951bb7c0336513dc99ac1b48c",
+			"revisionTime": "2016-07-26T11:20:39Z"
 		}
 	],
 	"rootPath": "Projeto-api"

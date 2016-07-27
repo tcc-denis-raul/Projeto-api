@@ -107,7 +107,7 @@ func (u *User) GetUser(path_json string) (User, error) {
 	}
 	defer db.session.Close()
 	var user User
-	err = db.session.DB(db.DBName).C("users").Find(bson.M{"email": u.Email}).One(&u)
+	err = db.session.DB(db.DBName).C("users").Find(bson.M{"email": u.Email}).One(&user)
 	return user, err
 }
 
