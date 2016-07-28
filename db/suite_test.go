@@ -26,7 +26,7 @@ func (s *StorageTest) TearDownSuite(c *C) {
 func (s *StorageTest) SetUpTest(c *C) {
 	conf, err := conf.Conf("data_test")
 	c.Check(err, IsNil)
-	c.Check(conf.URL, Equals, "192.168.99.100")
+	c.Check(conf.URL, Equals, "localhost")
 	c.Check(conf.Name, Equals, "paloma_test")
 	s.session, err = mgo.Dial(conf.URL)
 	c.Check(err, IsNil)

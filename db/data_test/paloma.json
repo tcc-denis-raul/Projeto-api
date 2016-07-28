@@ -1,6 +1,6 @@
 {
       "database": {
-         "url": "192.168.99.100",
+         "url": "localhost",
          "name": "paloma_test"       
       }
 }
