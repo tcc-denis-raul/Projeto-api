@@ -30,7 +30,7 @@ func GetCourses(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	courses, err := db.GetCourses(typ, course, "")
+	courses, err := db.GetCourses(typ, course)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -66,7 +66,7 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	questions, err := db.GetQuestions(typ, "")
+	questions, err := db.GetQuestions(typ)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -95,14 +95,14 @@ response:
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
-	if email != "" {
+	if email == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
 	user := db.User{
 		Email: email,
 	}
-	u, err := user.GetUser("")
+	u, err := user.GetUser()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -136,7 +136,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := user.CreateUser("")
+	err := user.CreateUser()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return
@@ -166,7 +166,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := user.UpdateUser("")
+	err := user.UpdateUser()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return
@@ -200,7 +200,7 @@ func Feedback(w http.ResponseWriter, r *http.Request) {
 	}
 	course.Rate = rate
 	course.Name = name
-	err = course.Feedback(t, c, "")
+	err = course.Feedback(t, c)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return

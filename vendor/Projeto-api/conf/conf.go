@@ -17,10 +17,10 @@ type Configuration struct {
 	Database DatabaseType `json:"database"`
 }
 
-func Conf(path_c string) (DatabaseType, error) {
+func Conf(path_c ...string) (DatabaseType, error) {
 	path := DefaultURLConf
-	if path_c != "" {
-		path = path_c
+	if len(path_c) > 0 && path_c[0] != "" {
+		path = path_c[0]
 	}
 	file, e := ioutil.ReadFile(fmt.Sprintf("%s/paloma.json", path))
 	if e != nil {
