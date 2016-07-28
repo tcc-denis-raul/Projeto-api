@@ -55,7 +55,6 @@ func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
 	c.Check(u[0].Password, Equals, user.Password)
 	err = user.CreateUser("data_test")
 	c.Check(err, NotNil)
-	c.Check(err.Error(), Equals, "E11000 duplicate key error collection: paloma_test.users index: email_1 dup key: { : \"email\" }")
 }
 
 func (s *StorageTest) TestUpdateUser(c *C) {
