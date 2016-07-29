@@ -10,7 +10,8 @@ Instalando depencias:
 - Obs. A pasta precisa estar no diretório $GOPATH
 
 Compilando e executando:
-===========
+========================
+- export API_PORT=Port (default: 5000)
 - make start
 
 Executando os testes:
