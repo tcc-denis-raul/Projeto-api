@@ -18,4 +18,5 @@ var routes = Routes{
 	Route{"CreateUser", "POST", "/users", CreateUser},
 	Route{"UpdateUser", "POST", "/users/update", UpdateUser},
 	Route{"Feedback", "POST", "/course/feedback", Feedback},
+	Route{"GetTypeCourses", "GET", "/types/courses", GetTypeCourses},
 }

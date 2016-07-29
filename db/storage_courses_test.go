@@ -77,3 +77,22 @@ func (s *StorageTest) TestGetCoursesWrongURLDDB(c *C) {
 	c.Check(err.Error(), Equals, "no reachable servers")
 	c.Check(len(data), Equals, 0)
 }
+
+func (s *StorageTest) TestGetTypeCoursesEmptyList(c *C) {
+	data, err := GetTypeCourses("data_test")
+	c.Check(err, IsNil)
+	c.Check(len(data), Equals, 0)
+}
+
+func (s *StorageTest) TestGetTypeCoursesLanguage(c *C) {
+	typeCourse := TypeCourses{
+		Language: []string{"ingles"},
+	}
+	err := s.session.DB(s.dbName).C("courses").Insert(&typeCourse)
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("courses").Remove(nil)
+	data, err := GetTypeCourses("data_test")
+	c.Check(err, IsNil)
+	c.Check(len(data), Equals, 1)
+	c.Check(data[0].Language, DeepEquals, []string{"ingles"})
+}

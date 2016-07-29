@@ -10,6 +10,35 @@ import (
 )
 
 /*
+title: get type courses
+path: /types/courses
+method: GET
+produce: application/json
+response:
+	200: list types
+	204: No Content
+	404: Not found
+	500: Internal error
+*/
+
+func GetTypeCourses(w http.ResponseWriter, r *http.Request) {
+	typesCourses, err := db.GetTypeCourses()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	if len(typesCourses) == 0 {
+		http.Error(w, "No Content", http.StatusNoContent)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err := json.NewEncoder(w).Encode(typesCourses); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+/*
 title: get courses
 path: /courses
 method: GET
