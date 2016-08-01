@@ -3,6 +3,24 @@ Sobre:
 ======
 Servidor web escrita em go
 
+Pré-dependencias:
+================
+- Go >= 1.5.4
+- Govendor
+	- go get -u github.com/kardianos/govendor
+
+Configurações:
+==============
+- Edite um arquivo chamado paloma.json com as configurações do banco
+Exemplo:
+`{
+      "database": {
+         "url": "127.0.0.1",
+         "name": "paloma"       
+      }
+}`
+- Copie 'paloma.json' para a pasta '/etc'
+
 Instalando depencias:
 =====================
 - export GO15VENDOREXPERIMENT=1
@@ -16,4 +34,4 @@ Compilando e executando:
 
 Executando os testes:
 =====================
-- Make test
+- make test

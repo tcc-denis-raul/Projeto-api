@@ -19,7 +19,25 @@
 			"path": "Projeto-api/db",
 			"revision": "511eddf13419a75f4380a1437b374b99b3f8d8e7",
 			"revisionTime": "2016-07-29T01:48:28Z"
+		},
+		{
+			"checksumSHA1": "r98vbf0dfilOhvOY88sVsDnjQFA=",
+			"path": "github.com/Projeto-api/api",
+			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
+			"revisionTime": "2016-07-29T02:43:04Z"
+		},
+		{
+			"checksumSHA1": "FvY8d3EwINoBw6AgHrrNk0T7Dz0=",
+			"path": "github.com/Projeto-api/conf",
+			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
+			"revisionTime": "2016-07-29T02:43:04Z"
+		},
+		{
+			"checksumSHA1": "iBaud19JDn88wtBE3oYxy3h/QLI=",
+			"path": "github.com/Projeto-api/db",
+			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
+			"revisionTime": "2016-07-29T02:43:04Z"
 		}
 	],
-	"rootPath": "Projeto-api"
+	"rootPath": "github.com/Projeto-api"
 }
