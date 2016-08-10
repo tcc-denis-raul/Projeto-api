@@ -19,20 +19,81 @@ type Courses struct {
 	Rate        int
 }
 
+type CourseScore struct {
+	Course Courses
+	Score  int
+}
+
+type Filter struct {
+	Type     string
+	Course   string
+	Based    string
+	Dynamic  string
+	Platform string
+	Extra    string
+	Price    string
+	Length   int
+}
+
 type TypeCourses struct {
 	Language []string
 }
 
-func GetCourses(typ, course string, path_json ...string) ([]Courses, error) {
+func hasStr(value string, list []string) bool {
+	for i := range list {
+		if list[i] == value {
+			return true
+		}
+	}
+	return false
+}
+
+func (f *Filter) filterCourse(data []Courses) []CourseScore {
+	scored := make([]CourseScore, 0)
+	for index := range data {
+		score := 0
+		if hasStr(f.Based, data[index].Based) {
+			score++
+		}
+		if hasStr(f.Dynamic, data[index].Dynamic) {
+			score++
+		}
+		if hasStr(f.Platform, data[index].Platform) {
+			score++
+		}
+		if hasStr(f.Extra, data[index].Extra) {
+			score++
+		}
+		scored = append(scored, CourseScore{
+			Course: data[index],
+			Score:  score,
+		})
+	}
+	return scored
+}
+
+func (f *Filter) limitCourse(courses []CourseScore) []Courses {
+	var result []Courses
+	for i := 0; i < f.Length; i++ {
+		result = append(result, courses[i].Course)
+	}
+	return result
+}
+
+func (f *Filter) GetCourses(path_json ...string) ([]Courses, error) {
 	db, err := GetSession(path_json...)
 	if err != nil {
 		return nil, err
 	}
 	defer db.session.Close()
 	var data []Courses
-	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Find(nil).All(&data)
+	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", f.Type, f.Course)).Find(nil).All(&data)
 	if err != nil {
 		return nil, err
+	}
+	scoredCourses := f.filterCourse(data)
+	if f.Length != 0 {
+		data = f.limitCourse(scoredCourses)
 	}
 	return data, nil
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	// "fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -51,15 +52,28 @@ response:
 	500: Internal error
 */
 func GetCourses(w http.ResponseWriter, r *http.Request) {
-	typ := r.FormValue("type")
-	course := r.FormValue("course")
+	r.ParseForm()
+	leng, err := strconv.Atoi(r.FormValue("length"))
+	if err != nil {
+		leng = 0
+	}
+	filter := db.Filter{
+		Type:     r.FormValue("type"),
+		Course:   r.FormValue("course"),
+		Based:    r.FormValue("based"),
+		Dynamic:  r.FormValue("dynamic"),
+		Platform: r.FormValue("platform"),
+		Extra:    r.FormValue("extra"),
+		Price:    r.FormValue("price"),
+		Length:   leng,
+	}
 
-	if typ == "" || course == "" {
+	if filter.Type == "" || filter.Course == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
 
-	courses, err := db.GetCourses(typ, course)
+	courses, err := filter.GetCourses()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

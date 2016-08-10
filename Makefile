@@ -14,7 +14,7 @@ deps: remove_deps _deps clean_deps_invalid
 run:
 	build/projeto-api
 
-start: deps build run remove_build
+start: deps remove_build build run
 
 test: clean_deps_invalid
 	go test ./...

@@ -3,22 +3,22 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "9i4UOS2tz5j8NlaAGI9Eaxz/cks=",
+			"checksumSHA1": "nBEKJutCHRAlwhn8gzxJHyDUjSc=",
 			"path": "Projeto-api/api",
-			"revision": "511eddf13419a75f4380a1437b374b99b3f8d8e7",
-			"revisionTime": "2016-07-29T01:48:28Z"
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
 		},
 		{
 			"checksumSHA1": "RL6QPKY93+zs/iQrDUdbfQ6h8jQ=",
 			"path": "Projeto-api/conf",
-			"revision": "511eddf13419a75f4380a1437b374b99b3f8d8e7",
-			"revisionTime": "2016-07-29T01:48:28Z"
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
 		},
 		{
-			"checksumSHA1": "M24ZXBkCA8HVtIxLixP8s+oE9sA=",
+			"checksumSHA1": "fXu0aU75hvIGHYEMdACYydb84lk=",
 			"path": "Projeto-api/db",
-			"revision": "511eddf13419a75f4380a1437b374b99b3f8d8e7",
-			"revisionTime": "2016-07-29T01:48:28Z"
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
 		},
 		{
 			"checksumSHA1": "r98vbf0dfilOhvOY88sVsDnjQFA=",
@@ -37,7 +37,25 @@
 			"path": "github.com/Projeto-api/db",
 			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
 			"revisionTime": "2016-07-29T02:43:04Z"
+		},
+		{
+			"checksumSHA1": "7lCohsek+o7DrBbZOB+VUC75xbk=",
+			"path": "github/Projeto-api/api",
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
+		},
+		{
+			"checksumSHA1": "z8HxmTxGGTg1DaJ09GKN+avModY=",
+			"path": "github/Projeto-api/conf",
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
+		},
+		{
+			"checksumSHA1": "IUKJvVnCsbH1qm658iui3Ph0SjA=",
+			"path": "github/Projeto-api/db",
+			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
+			"revisionTime": "2016-08-01T18:58:13Z"
 		}
 	],
-	"rootPath": "github.com/Projeto-api"
+	"rootPath": "Projeto-api"
 }
