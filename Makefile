@@ -11,10 +11,10 @@ _deps:
 
 deps: remove_deps _deps clean_deps_invalid
 
-run:
+run_:
 	build/projeto-api
 
-start: deps remove_build build run
+run: deps remove_build build run_
 
 test: clean_deps_invalid
 	go test ./...
@@ -23,4 +23,4 @@ build:
 	go build -o build/projeto-api api/*
 
 remove_build:
-	rm -r build
+	@rm -r build 2> /dev/null; true

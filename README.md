@@ -30,7 +30,7 @@ Instalando depencias:
 Compilando e executando:
 ========================
 - export API_PORT=Port (default: 5000)
-- make start
+- make run
 
 Executando os testes:
 =====================
