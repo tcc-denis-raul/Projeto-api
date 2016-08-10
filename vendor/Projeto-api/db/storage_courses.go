@@ -48,27 +48,42 @@ func hasStr(value string, list []string) bool {
 	return false
 }
 
+func SortScore(cs []CourseScore) {
+	swapped := true
+	for swapped {
+		swapped = false
+		for i := 0; i < len(cs)-1; i++ {
+			if cs[i+1].Score > cs[i].Score {
+				cs[i], cs[i+1] = cs[i+1], cs[i]
+				swapped = true
+			}
+		}
+	}
+}
+
 func (f *Filter) filterCourse(data []Courses) []CourseScore {
 	scored := make([]CourseScore, 0)
 	for index := range data {
 		score := 0
-		if hasStr(f.Based, data[index].Based) {
+		if f.Based != "" && hasStr(f.Based, data[index].Based) {
 			score++
 		}
-		if hasStr(f.Dynamic, data[index].Dynamic) {
+		if f.Dynamic != "" && hasStr(f.Dynamic, data[index].Dynamic) {
 			score++
 		}
-		if hasStr(f.Platform, data[index].Platform) {
+		if f.Platform != "" && hasStr(f.Platform, data[index].Platform) {
 			score++
 		}
-		if hasStr(f.Extra, data[index].Extra) {
+		if f.Extra != "" && hasStr(f.Extra, data[index].Extra) {
 			score++
 		}
 		scored = append(scored, CourseScore{
 			Course: data[index],
 			Score:  score,
 		})
+		fmt.Println("Curso ", data[index].Name, " Pontuação ", score)
 	}
+	SortScore(scored)
 	return scored
 }
 

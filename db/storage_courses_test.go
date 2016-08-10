@@ -116,17 +116,6 @@ func (s *StorageTest) TestGetTypeCoursesLanguage(c *C) {
 func (s *StorageTest) TestFilterCourse(c *C) {
 	courses := []Courses{
 		{
-			Name:        "name",
-			Based:       []string{"base1", "based2"},
-			PriceReal:   []float64{2.0, 3.0},
-			PriceDolar:  []float64{4.0, 5.0},
-			Dynamic:     []string{"dyn 1", "dyn 2"},
-			Platform:    []string{"desktop", "android", "dif"},
-			Url:         "url_course",
-			Extra:       []string{"ext 1", "ext 2"},
-			Description: "descr",
-		},
-		{
 			Name:        "name2",
 			Based:       []string{"base3", "based4"},
 			PriceReal:   []float64{2.0, 3.0},
@@ -135,6 +124,17 @@ func (s *StorageTest) TestFilterCourse(c *C) {
 			Platform:    []string{"desktop", "android"},
 			Url:         "url_course",
 			Extra:       []string{"ext 3", "ext 4"},
+			Description: "descr",
+		},
+		{
+			Name:        "name",
+			Based:       []string{"base1", "based2"},
+			PriceReal:   []float64{2.0, 3.0},
+			PriceDolar:  []float64{4.0, 5.0},
+			Dynamic:     []string{"dyn 1", "dyn 2"},
+			Platform:    []string{"desktop", "android", "dif"},
+			Url:         "url_course",
+			Extra:       []string{"ext 1", "ext 2"},
 			Description: "descr",
 		},
 	}
@@ -148,9 +148,9 @@ func (s *StorageTest) TestFilterCourse(c *C) {
 	}
 	data := f.filterCourse(courses)
 	c.Check(len(data), Equals, 2)
-	c.Check(data[0].Course.Name, Equals, courses[0].Name)
+	c.Check(data[0].Course.Name, Equals, courses[1].Name)
 	c.Check(data[0].Score, Equals, 4)
-	c.Check(data[1].Course.Name, Equals, courses[1].Name)
+	c.Check(data[1].Course.Name, Equals, courses[0].Name)
 	c.Check(data[1].Score, Equals, 1)
 }
 
@@ -193,4 +193,60 @@ func (s *StorageTest) TestLimitCourse(c *C) {
 	data := f.limitCourse(courses)
 	c.Check(len(data), Equals, 1)
 	c.Check(data[0].Name, Equals, courses[0].Course.Name)
+}
+
+func (s *StorageTest) TestSort(c *C) {
+	courses := []CourseScore{
+		CourseScore{
+			Course: Courses{
+				Name:        "name",
+				Based:       []string{"base1", "based2"},
+				PriceReal:   []float64{2.0, 3.0},
+				PriceDolar:  []float64{4.0, 5.0},
+				Dynamic:     []string{"dyn 1", "dyn 2"},
+				Platform:    []string{"desktop", "android", "dif"},
+				Url:         "url_course",
+				Extra:       []string{"ext 1", "ext 2"},
+				Description: "descr",
+			},
+			Score: 1,
+		},
+		CourseScore{
+			Course: Courses{
+				Name:        "name2",
+				Based:       []string{"base3", "based4"},
+				PriceReal:   []float64{2.0, 3.0},
+				PriceDolar:  []float64{4.0, 5.0},
+				Dynamic:     []string{"dyn 3", "dyn 4"},
+				Platform:    []string{"desktop", "android"},
+				Url:         "url_course",
+				Extra:       []string{"ext 3", "ext 4"},
+				Description: "descr",
+			},
+			Score: 55,
+		},
+		CourseScore{
+			Course: Courses{
+				Name:        "name3",
+				Based:       []string{"base3", "based4"},
+				PriceReal:   []float64{2.0, 3.0},
+				PriceDolar:  []float64{4.0, 5.0},
+				Dynamic:     []string{"dyn 3", "dyn 4"},
+				Platform:    []string{"desktop", "android"},
+				Url:         "url_course",
+				Extra:       []string{"ext 3", "ext 4"},
+				Description: "descr",
+			},
+			Score: 10,
+		},
+	}
+	SortScore(courses)
+	c.Check(len(courses), Equals, 3)
+	c.Check(courses[0].Course.Name, Equals, "name2")
+	c.Check(courses[0].Score, Equals, 55)
+	c.Check(courses[1].Course.Name, Equals, "name3")
+	c.Check(courses[1].Score, Equals, 10)
+	c.Check(courses[2].Course.Name, Equals, "name")
+	c.Check(courses[2].Score, Equals, 1)
+
 }

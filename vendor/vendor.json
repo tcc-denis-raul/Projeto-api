@@ -5,20 +5,26 @@
 		{
 			"checksumSHA1": "nBEKJutCHRAlwhn8gzxJHyDUjSc=",
 			"path": "Projeto-api/api",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
+			"revision": "f2de3af1d211ea86d70d63a4779c77e25ea75245",
+			"revisionTime": "2016-08-10T18:08:13Z"
 		},
 		{
 			"checksumSHA1": "RL6QPKY93+zs/iQrDUdbfQ6h8jQ=",
 			"path": "Projeto-api/conf",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
+			"revision": "f2de3af1d211ea86d70d63a4779c77e25ea75245",
+			"revisionTime": "2016-08-10T18:08:13Z"
 		},
 		{
-			"checksumSHA1": "fXu0aU75hvIGHYEMdACYydb84lk=",
+			"checksumSHA1": "jW5bt+6nVmrgJ6qf7RDsJqAaw0M=",
 			"path": "Projeto-api/db",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
+			"revision": "f2de3af1d211ea86d70d63a4779c77e25ea75245",
+			"revisionTime": "2016-08-10T18:08:13Z"
+		},
+		{
+			"checksumSHA1": "PuaQ9QDNqhu6a7OfnNcfAhnUpUE=",
+			"path": "Projeto-api/sort",
+			"revision": "f2de3af1d211ea86d70d63a4779c77e25ea75245",
+			"revisionTime": "2016-08-10T18:08:13Z"
 		},
 		{
 			"checksumSHA1": "r98vbf0dfilOhvOY88sVsDnjQFA=",
