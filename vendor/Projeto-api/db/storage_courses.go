@@ -81,13 +81,15 @@ func (f *Filter) filterCourse(data []Courses) []CourseScore {
 			Course: data[index],
 			Score:  score,
 		})
-		fmt.Println("Curso ", data[index].Name, " Pontuação ", score)
 	}
 	SortScore(scored)
 	return scored
 }
 
 func (f *Filter) limitCourse(courses []CourseScore) []Courses {
+	if f.Length > len(courses) {
+		f.Length = len(courses)
+	}
 	var result []Courses
 	for i := 0; i < f.Length; i++ {
 		result = append(result, courses[i].Course)
