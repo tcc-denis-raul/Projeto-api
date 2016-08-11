@@ -3,22 +3,22 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "nBEKJutCHRAlwhn8gzxJHyDUjSc=",
+			"checksumSHA1": "ybibhbHuR+VWiowjfY82j1h40X8=",
 			"path": "Projeto-api/api",
-			"revision": "a73764e0e739f608f15763bab7ae331ad376d867",
-			"revisionTime": "2016-08-10T21:01:11Z"
+			"revision": "545b1ee24981b8d19c4f28469975bb46c4e1f6e2",
+			"revisionTime": "2016-08-10T21:10:19Z"
 		},
 		{
 			"checksumSHA1": "RL6QPKY93+zs/iQrDUdbfQ6h8jQ=",
 			"path": "Projeto-api/conf",
-			"revision": "a73764e0e739f608f15763bab7ae331ad376d867",
-			"revisionTime": "2016-08-10T21:01:11Z"
+			"revision": "545b1ee24981b8d19c4f28469975bb46c4e1f6e2",
+			"revisionTime": "2016-08-10T21:10:19Z"
 		},
 		{
 			"checksumSHA1": "vAIK0LnaLvRHLi7b9b0mKcrDh74=",
 			"path": "Projeto-api/db",
-			"revision": "a73764e0e739f608f15763bab7ae331ad376d867",
-			"revisionTime": "2016-08-10T21:01:11Z"
+			"revision": "545b1ee24981b8d19c4f28469975bb46c4e1f6e2",
+			"revisionTime": "2016-08-10T21:10:19Z"
 		},
 		{
 			"checksumSHA1": "PuaQ9QDNqhu6a7OfnNcfAhnUpUE=",
