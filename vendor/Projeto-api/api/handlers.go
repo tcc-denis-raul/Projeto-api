@@ -204,15 +204,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		Email:     r.FormValue("email"),
 		UserName:  r.FormValue("username"),
 	}
-
-	if user.FirstName == "" || user.LastName == "" || user.Email == "" || user.UserName == "" {
+	if user.UserName == "" || user.FirstName == "" && user.LastName == "" && user.Email == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
 
 	err := user.UpdateUser()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusConflict)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
@@ -245,6 +244,35 @@ func Feedback(w http.ResponseWriter, r *http.Request) {
 	course.Rate = rate
 	course.Name = name
 	err = course.Feedback(t, c)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+/*
+title: indicate course
+path: /course/indicate
+method: POST
+response:
+	200: indicate ok
+	400: invalid data
+	409: course already exists
+*/
+func IndicateCourse(w http.ResponseWriter, r *http.Request) {
+	indication := db.IndicateCourse{
+		Type:   r.FormValue("type"),
+		Course: r.FormValue("course"),
+		Name:   r.FormValue("name"),
+		Url:    r.FormValue("url"),
+	}
+	if indication.Type == "" || indication.Course == "" ||
+		indication.Name == "" || indication.Url == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+	err := indication.IndicateCourse()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return

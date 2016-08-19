@@ -250,3 +250,80 @@ func (s *StorageTest) TestSort(c *C) {
 	c.Check(courses[2].Score, Equals, 1)
 
 }
+
+func (s *StorageTest) TestIndicateCourse(c *C) {
+	indication := IndicateCourse{
+		Type:   "language",
+		Course: "ingles",
+		Name:   "indication",
+		Url:    "url",
+	}
+	err := indication.IndicateCourse("data_test")
+	defer s.session.DB(s.dbName).C("indicate_courses").Remove(nil)
+	c.Check(err, IsNil)
+	var result []IndicateCourse
+	err = s.session.DB(s.dbName).C("indicate_courses").Find(bson.M{"url": indication.Url}).All(&result)
+	c.Check(err, IsNil)
+	c.Check(len(result), Equals, 1)
+	c.Check(result[0].Name, Equals, indication.Name)
+	c.Check(result[0].Type, Equals, indication.Type)
+	c.Check(result[0].Course, Equals, indication.Course)
+	c.Check(result[0].Url, Equals, indication.Url)
+}
+
+func (s *StorageTest) TestIndicateCourseAlreadyIndicate(c *C) {
+	indication := IndicateCourse{
+		Type:   "language",
+		Course: "ingles",
+		Name:   "indication",
+		Url:    "url",
+	}
+	err := indication.IndicateCourse("data_test")
+	defer s.session.DB(s.dbName).C("indicate_courses").Remove(nil)
+	c.Check(err, IsNil)
+	var result []IndicateCourse
+	err = s.session.DB(s.dbName).C("indicate_courses").Find(bson.M{"url": indication.Url}).All(&result)
+	c.Check(err, IsNil)
+	c.Check(len(result), Equals, 1)
+	c.Check(result[0].Name, Equals, indication.Name)
+	c.Check(result[0].Type, Equals, indication.Type)
+	c.Check(result[0].Course, Equals, indication.Course)
+	c.Check(result[0].Url, Equals, indication.Url)
+	err = indication.IndicateCourse("data_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "Course already indicate")
+}
+
+func (s *StorageTest) TestIndicateCourseAlreadyInDataBase(c *C) {
+	Course := Courses{
+		Name:        "name3",
+		Based:       []string{"base3", "based4"},
+		PriceReal:   []float64{2.0, 3.0},
+		PriceDolar:  []float64{4.0, 5.0},
+		Dynamic:     []string{"dyn 3", "dyn 4"},
+		Platform:    []string{"desktop", "android"},
+		Url:         "url_course",
+		Extra:       []string{"ext 3", "ext 4"},
+		Description: "descr",
+	}
+	err := s.session.DB(s.dbName).C("language_ingles").Insert(&Course)
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("language_ingles").Remove(bson.M{"name": Course.Name})
+	f := Filter{
+		Type:   "language",
+		Course: "ingles",
+	}
+	data, err := f.GetCourses("data_test")
+	c.Check(err, IsNil)
+	c.Check(len(data), Equals, 1)
+	c.Check(data[0].Name, Equals, Course.Name)
+	indication := IndicateCourse{
+		Type:   "language",
+		Course: "ingles",
+		Name:   "name3",
+		Url:    "url_course",
+	}
+	err = indication.IndicateCourse("data_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "Course already exists on list of courses")
+}

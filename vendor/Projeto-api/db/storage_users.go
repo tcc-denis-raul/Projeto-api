@@ -40,7 +40,10 @@ func (u *User) UpdateUser(path_json ...string) error {
 		return err
 	}
 	defer db.session.Close()
-	var updateData User
+	updateData, err := u.GetUser(path_json...)
+	if err != nil {
+		return err
+	}
 	if u.FirstName != "" {
 		updateData.FirstName = u.FirstName
 	}
@@ -50,11 +53,8 @@ func (u *User) UpdateUser(path_json ...string) error {
 	if u.Email != "" {
 		updateData.Email = u.Email
 	}
-	if u.UserName != "" {
-		updateData.UserName = u.UserName
-	}
 	if !u.LastAcess.IsZero() {
 		updateData.LastAcess = u.LastAcess
 	}
-	return db.session.DB(db.DBName).C("users").Update(bson.M{"email": u.Email}, bson.M{"$set": updateData})
+	return db.session.DB(db.DBName).C("users").Update(bson.M{"username": u.UserName}, bson.M{"$set": updateData})
 }

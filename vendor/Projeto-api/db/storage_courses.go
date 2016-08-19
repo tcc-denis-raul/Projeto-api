@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"fmt"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -37,6 +38,13 @@ type Filter struct {
 
 type TypeCourses struct {
 	Language []string
+}
+
+type IndicateCourse struct {
+	Type   string
+	Course string
+	Name   string
+	Url    string
 }
 
 func hasStr(value string, list []string) bool {
@@ -127,4 +135,30 @@ func GetTypeCourses(path_json ...string) ([]TypeCourses, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func (i *IndicateCourse) IndicateCourse(path_json ...string) error {
+	db, err := GetSession(path_json...)
+	if err != nil {
+		return err
+	}
+	defer db.session.Close()
+	var indicate []IndicateCourse
+	err = db.session.DB(db.DBName).C("indicate_courses").Find(bson.M{"url": i.Url}).All(&indicate)
+	if err != nil {
+		return err
+	}
+	if len(indicate) > 0 && indicate[0].Url == i.Url {
+		return errors.New("Course already indicate")
+	}
+	var courses []Courses
+	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", i.Type, i.Course)).Find(bson.M{"url": i.Url}).All(&courses)
+	if err != nil {
+		return err
+	}
+	if len(courses) > 0 && courses[0].Url == i.Url {
+		return errors.New("Course already exists on list of courses")
+	}
+	err = db.session.DB(db.DBName).C("indicate_courses").Insert(i)
+	return err
 }
