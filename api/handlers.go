@@ -167,13 +167,14 @@ response:
 */
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := db.User{
-		Name:     r.FormValue("name"),
-		Email:    r.FormValue("email"),
-		Password: r.FormValue("password"),
-		Created:  time.Now(),
+		FirstName: r.FormValue("firtname"),
+		LastName:  r.FormValue("lastname"),
+		Email:     r.FormValue("email"),
+		UserName:  r.FormValue("username"),
+		Created:   time.Now(),
 	}
 
-	if user.Name == "" || user.Email == "" || user.Password == "" {
+	if user.FirstName == "" || user.LastName == "" || user.Email == "" || user.UserName == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
@@ -198,12 +199,12 @@ response:
 */
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	user := db.User{
-		Name:     r.FormValue("name"),
-		Email:    r.FormValue("email"),
-		Password: r.FormValue("password"),
+		FirstName: r.FormValue("firtname"),
+		LastName:  r.FormValue("lastname"),
+		Email:     r.FormValue("email"),
+		UserName:  r.FormValue("username"),
 	}
-
-	if user.Name == "" || (user.Email == "" && user.Password == "") {
+	if user.UserName == "" || user.FirstName == "" && user.LastName == "" && user.Email == "" {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}

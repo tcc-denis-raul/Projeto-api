@@ -6,9 +6,10 @@ import (
 )
 
 type User struct {
-	Name      string
+	FirstName string `bson:"first_name"`
+	LastName  string `bson:"last_name"`
+	UserName  string
 	Email     string
-	Password  string
 	Created   time.Time
 	LastAcess time.Time
 }
@@ -20,7 +21,7 @@ func (u *User) GetUser(path_json ...string) (User, error) {
 	}
 	defer db.session.Close()
 	var user User
-	err = db.session.DB(db.DBName).C("users").Find(bson.M{"email": u.Email}).One(&user)
+	err = db.session.DB(db.DBName).C("users").Find(bson.M{"username": u.UserName}).One(&user)
 	return user, err
 }
 
@@ -39,18 +40,21 @@ func (u *User) UpdateUser(path_json ...string) error {
 		return err
 	}
 	defer db.session.Close()
-	var updateData User
-	if u.Name != "" {
-		updateData.Name = u.Name
+	updateData, err := u.GetUser(path_json...)
+	if err != nil {
+		return err
+	}
+	if u.FirstName != "" {
+		updateData.FirstName = u.FirstName
+	}
+	if u.LastName != "" {
+		updateData.LastName = u.LastName
 	}
 	if u.Email != "" {
 		updateData.Email = u.Email
 	}
-	if u.Password != "" {
-		updateData.Password = u.Password
-	}
 	if !u.LastAcess.IsZero() {
 		updateData.LastAcess = u.LastAcess
 	}
-	return db.session.DB(db.DBName).C("users").Update(bson.M{"email": u.Email}, bson.M{"$set": updateData})
+	return db.session.DB(db.DBName).C("users").Update(bson.M{"username": u.UserName}, bson.M{"$set": updateData})
 }
