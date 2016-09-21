@@ -279,6 +279,15 @@ func IndicateCourse(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+/*
+title: save user preferences
+path: /users/profile
+method: POST
+response:
+	200: prefereces saved
+	400: invalid data
+	500: internal error
+*/
 func SaveUserPreferences(w http.ResponseWriter, r *http.Request) {
 	preferences := db.UserPreferences{
 		UserName: r.FormValue("username"),
@@ -294,7 +303,28 @@ func SaveUserPreferences(w http.ResponseWriter, r *http.Request) {
 	}
 	err := preferences.SaveUserPreferences()
 	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func GetUserPreferences(w http.ResponseWriter, r *http.Request) {
+	user := db.UserPreferences{
+		UserName: r.FormValue("username"),
+	}
+	if user.UserName == "" {
+		http.Error(w, "Invalid Data", http.StatusBadRequest)
+		return
+	}
+	u, err := user.GetUserPreferences()
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err := json.NewEncoder(w).Encode(u); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)

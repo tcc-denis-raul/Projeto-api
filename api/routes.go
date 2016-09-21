@@ -22,4 +22,5 @@ var routes = Routes{
 	Route{"GetTypeCourses", "GET", "/types/courses", GetTypeCourses},
 	Route{"IndicateCourse", "POST", "/indicate/course", IndicateCourse},
 	Route{"SaveUserPreferences", "POST", "/users/profile", SaveUserPreferences},
+	Route{"GetUserPreferences", "GET", "/users/profile", GetUserPreferences},
 }

@@ -77,3 +77,14 @@ func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
 	_, err = db.session.DB(db.DBName).C("user_profile_courses").Upsert(bson.M{"username": up.UserName}, bson.M{"$set": up})
 	return err
 }
+
+func (up *UserPreferences) GetUserPreferences(path_json ...string) (UserPreferences, error) {
+	db, err := GetSession(path_json...)
+	if err != nil {
+		return UserPreferences{}, err
+	}
+	defer db.session.Close()
+	var prefer UserPreferences
+	err = db.session.DB(db.DBName).C("user_profile_courses").Find(bson.M{"username": up.UserName}).One(&prefer)
+	return prefer, err
+}
