@@ -105,3 +105,70 @@ func (s *StorageTest) TestUpdateUserNotExists(c *C) {
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "not found")
 }
+
+func (s *StorageTest) TestSaveUserPreferencesUserDoesNotExists(c *C) {
+	preferences := UserPreferences{
+		UserName: "username",
+		Based:    "based",
+		Dynamic:  "dynamic",
+		Platform: "platform",
+		Extra:    "extra",
+		Price:    "price",
+	}
+	err := preferences.SaveUserPreferences("data_test")
+	c.Check(err, IsNil)
+	var prefers []UserPreferences
+	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
+	defer s.session.DB(s.dbName).C("user_profile_courses").RemoveAll(bson.M{"username": "username"})
+	c.Check(err, IsNil)
+	c.Check(len(prefers), Equals, 1)
+	c.Check(prefers[0].UserName, Equals, preferences.UserName)
+	c.Check(prefers[0].Based, Equals, preferences.Based)
+	c.Check(prefers[0].Dynamic, Equals, preferences.Dynamic)
+	c.Check(prefers[0].Platform, Equals, preferences.Platform)
+	c.Check(prefers[0].Extra, Equals, preferences.Extra)
+	c.Check(prefers[0].Price, Equals, preferences.Price)
+}
+
+func (s *StorageTest) TestSaveUserPreferencesUserExists(c *C) {
+	preferences := UserPreferences{
+		UserName: "username",
+		Based:    "based",
+		Dynamic:  "dynamic",
+		Platform: "platform",
+		Extra:    "extra",
+		Price:    "price",
+	}
+	err := preferences.SaveUserPreferences("data_test")
+	c.Check(err, IsNil)
+	var prefers []UserPreferences
+	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
+	defer s.session.DB(s.dbName).C("user_profile_courses").RemoveAll(bson.M{"username": "username"})
+	c.Check(err, IsNil)
+	c.Check(len(prefers), Equals, 1)
+	c.Check(prefers[0].UserName, Equals, preferences.UserName)
+	c.Check(prefers[0].Based, Equals, preferences.Based)
+	c.Check(prefers[0].Dynamic, Equals, preferences.Dynamic)
+	c.Check(prefers[0].Platform, Equals, preferences.Platform)
+	c.Check(prefers[0].Extra, Equals, preferences.Extra)
+	c.Check(prefers[0].Price, Equals, preferences.Price)
+	preferences2 := UserPreferences{
+		UserName: "username",
+		Based:    "based2",
+		Dynamic:  "dynamic",
+		Platform: "platform",
+		Extra:    "extra2",
+		Price:    "price",
+	}
+	err = preferences2.SaveUserPreferences("data_test")
+	c.Check(err, IsNil)
+	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
+	c.Check(err, IsNil)
+	c.Check(len(prefers), Equals, 1)
+	c.Check(prefers[0].UserName, Equals, preferences2.UserName)
+	c.Check(prefers[0].Based, Equals, preferences2.Based)
+	c.Check(prefers[0].Dynamic, Equals, preferences2.Dynamic)
+	c.Check(prefers[0].Platform, Equals, preferences2.Platform)
+	c.Check(prefers[0].Extra, Equals, preferences2.Extra)
+	c.Check(prefers[0].Price, Equals, preferences2.Price)
+}

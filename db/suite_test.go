@@ -31,8 +31,9 @@ func (s *StorageTest) SetUpTest(c *C) {
 	s.session, err = mgo.Dial(conf.URL)
 	c.Check(err, IsNil)
 	s.dbName = conf.Name
-	err = s.session.DB(s.dbName).C("users").EnsureIndex(mgo.Index{Key: []string{"email"}, Unique: true})
+	err = s.session.DB(s.dbName).C("users").EnsureIndex(mgo.Index{Key: []string{"username"}, Unique: true})
 	c.Check(err, IsNil)
 	err = s.session.DB(s.dbName).C("language_ingles").EnsureIndex(mgo.Index{Key: []string{"name"}, Unique: true})
 	c.Check(err, IsNil)
+	err = s.session.DB(s.dbName).C("user_profile_courses").EnsureIndex(mgo.Index{Key: []string{"username"}, Unique: true})
 }

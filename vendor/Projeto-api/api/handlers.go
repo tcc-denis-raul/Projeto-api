@@ -1,12 +1,11 @@
 package main
 
 import (
+	"Projeto-api/db"
 	"encoding/json"
 	"net/http"
 	"strconv"
 	"time"
-
-	"Projeto-api/db"
 )
 
 /*
@@ -275,6 +274,27 @@ func IndicateCourse(w http.ResponseWriter, r *http.Request) {
 	err := indication.IndicateCourse()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusConflict)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func SaveUserPreferences(w http.ResponseWriter, r *http.Request) {
+	preferences := db.UserPreferences{
+		UserName: r.FormValue("username"),
+		Based:    r.FormValue("based"),
+		Dynamic:  r.FormValue("dynamic"),
+		Platform: r.FormValue("platform"),
+		Extra:    r.FormValue("extra"),
+		Price:    r.FormValue("price"),
+	}
+	if preferences.UserName == "" {
+		http.Error(w, "Invalid Data 2", http.StatusBadRequest)
+		return
+	}
+	err := preferences.SaveUserPreferences()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	w.WriteHeader(http.StatusOK)

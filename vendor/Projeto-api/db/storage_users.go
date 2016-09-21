@@ -14,6 +14,15 @@ type User struct {
 	LastAcess time.Time
 }
 
+type UserPreferences struct {
+	UserName string
+	Based    string
+	Dynamic  string
+	Platform string
+	Extra    string
+	Price    string
+}
+
 func (u *User) GetUser(path_json ...string) (User, error) {
 	db, err := GetSession(path_json...)
 	if err != nil {
@@ -57,4 +66,14 @@ func (u *User) UpdateUser(path_json ...string) error {
 		updateData.LastAcess = u.LastAcess
 	}
 	return db.session.DB(db.DBName).C("users").Update(bson.M{"username": u.UserName}, bson.M{"$set": updateData})
+}
+
+func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
+	db, err := GetSession(path_json...)
+	if err != nil {
+		return err
+	}
+	defer db.session.Close()
+	_, err = db.session.DB(db.DBName).C("user_profile_courses").Upsert(bson.M{"username": up.UserName}, bson.M{"$set": up})
+	return err
 }
