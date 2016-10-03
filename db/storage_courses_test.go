@@ -327,3 +327,47 @@ func (s *StorageTest) TestIndicateCourseAlreadyInDataBase(c *C) {
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "Course already exists on list of courses")
 }
+
+func (s *StorageTest) TestCourseDetail(c *C) {
+	Course := Courses{
+		Name:        "name3",
+		Based:       []string{"base3", "based4"},
+		PriceReal:   []float64{2.0, 3.0},
+		PriceDolar:  []float64{4.0, 5.0},
+		Dynamic:     []string{"dyn 3", "dyn 4"},
+		Platform:    []string{"desktop", "android"},
+		Url:         "url_course",
+		Extra:       []string{"ext 3", "ext 4"},
+		Description: "descr",
+	}
+	err := s.session.DB(s.dbName).C("language_ingles").Insert(&Course)
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("language_ingles").Remove(bson.M{"name": Course.Name})
+	f := CourseDetail{
+		Type:   "language",
+		Course: "ingles",
+		Name:   "name3",
+	}
+	data, err := f.GetDetailCourse("data_test")
+	c.Check(err, IsNil)
+	c.Check(data.Name, DeepEquals, Course.Name)
+	c.Check(data.Url, DeepEquals, Course.Url)
+	c.Check(data.Platform, DeepEquals, Course.Platform)
+	c.Check(data.Based, DeepEquals, Course.Based)
+	c.Check(data.PriceReal, DeepEquals, Course.PriceReal)
+	c.Check(data.PriceDolar, DeepEquals, Course.PriceDolar)
+	c.Check(data.Dynamic, DeepEquals, Course.Dynamic)
+	c.Check(data.Extra, DeepEquals, Course.Extra)
+}
+
+func (s *StorageTest) TestCourseDetailNotExistCourse(c *C) {
+	f := CourseDetail{
+		Type:   "language",
+		Course: "ingles",
+		Name:   "aba",
+	}
+	data, err := f.GetDetailCourse("data_test")
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "not found")
+	c.Check(data, DeepEquals, Courses{})
+}
