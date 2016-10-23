@@ -47,6 +47,12 @@ type IndicateCourse struct {
 	Url    string
 }
 
+type CourseDetail struct {
+	Type   string
+	Course string
+	Name   string
+}
+
 func hasStr(value string, list []string) bool {
 	for i := range list {
 		if list[i] == value {
@@ -121,6 +127,20 @@ func (f *Filter) GetCourses(path_json ...string) ([]Courses, error) {
 		data = f.limitCourse(scoredCourses)
 	}
 	return data, nil
+}
+
+func (f *CourseDetail) GetDetailCourse(path_json ...string) (Courses, error) {
+	db, err := GetSession(path_json...)
+	if err != nil {
+		return Courses{}, err
+	}
+	defer db.session.Close()
+	var course Courses
+	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", f.Type, f.Course)).Find(bson.M{"name": f.Name}).One(&course)
+	if err != nil {
+		return Courses{}, err
+	}
+	return course, nil
 }
 
 func GetTypeCourses(path_json ...string) ([]TypeCourses, error) {

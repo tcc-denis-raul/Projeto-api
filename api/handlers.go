@@ -125,6 +125,40 @@ func GetQuestions(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
+title: details of course
+path: /course/detail
+method: GET
+produce: application/json
+response:
+	200: detail course
+	400: Invalid data
+	404: Not found
+	500: Internal error
+
+*/
+func GetDetailCourse(w http.ResponseWriter, r *http.Request) {
+	filter := db.CourseDetail{
+		Type:   r.FormValue("type"),
+		Course: r.FormValue("course"),
+		Name:   r.FormValue("name"),
+	}
+	if filter.Type == "" || filter.Course == "" || filter.Name == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+	course, err := filter.GetDetailCourse()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if err := json.NewEncoder(w).Encode(course); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+/*
 title: get user
 path: /users
 method: GET
