@@ -3,64 +3,20 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "m9uhY5rlENSN8IJNuu1xa4HGDBU=",
 			"path": "Projeto-api/api",
-			"revision": "2c9c07dd93f7ae653dfe63447d11e9a9ee7db61c",
-			"revisionTime": "2016-10-03T22:47:11Z"
+			"revision": "7f7031bdf1637b9845ece5af0eea1d5a97ef06d8",
+			"revisionTime": "2016-10-29T23:53:39Z"
 		},
 		{
-			"checksumSHA1": "RL6QPKY93+zs/iQrDUdbfQ6h8jQ=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/Projeto-api/conf",
 			"path": "Projeto-api/conf",
-			"revision": "2c9c07dd93f7ae653dfe63447d11e9a9ee7db61c",
-			"revisionTime": "2016-10-03T22:47:11Z"
+			"revision": "7f7031bdf1637b9845ece5af0eea1d5a97ef06d8",
+			"revisionTime": "2016-10-29T23:53:39Z"
 		},
 		{
-			"checksumSHA1": "7pOTU7zU6AnY/cNl/PxVdxMc3Lc=",
 			"path": "Projeto-api/db",
-			"revision": "2c9c07dd93f7ae653dfe63447d11e9a9ee7db61c",
-			"revisionTime": "2016-10-03T22:47:11Z"
-		},
-		{
-			"checksumSHA1": "PuaQ9QDNqhu6a7OfnNcfAhnUpUE=",
-			"path": "Projeto-api/sort",
-			"revision": "f2de3af1d211ea86d70d63a4779c77e25ea75245",
-			"revisionTime": "2016-08-10T18:08:13Z"
-		},
-		{
-			"checksumSHA1": "r98vbf0dfilOhvOY88sVsDnjQFA=",
-			"path": "github.com/Projeto-api/api",
-			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
-			"revisionTime": "2016-07-29T02:43:04Z"
-		},
-		{
-			"checksumSHA1": "FvY8d3EwINoBw6AgHrrNk0T7Dz0=",
-			"path": "github.com/Projeto-api/conf",
-			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
-			"revisionTime": "2016-07-29T02:43:04Z"
-		},
-		{
-			"checksumSHA1": "iBaud19JDn88wtBE3oYxy3h/QLI=",
-			"path": "github.com/Projeto-api/db",
-			"revision": "8316565fc01544e13810bc6f98d324d1474d9aa2",
-			"revisionTime": "2016-07-29T02:43:04Z"
-		},
-		{
-			"checksumSHA1": "7lCohsek+o7DrBbZOB+VUC75xbk=",
-			"path": "github/Projeto-api/api",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
-		},
-		{
-			"checksumSHA1": "z8HxmTxGGTg1DaJ09GKN+avModY=",
-			"path": "github/Projeto-api/conf",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
-		},
-		{
-			"checksumSHA1": "IUKJvVnCsbH1qm658iui3Ph0SjA=",
-			"path": "github/Projeto-api/db",
-			"revision": "7bf0aaa1798ede609b0442f2b84792fbc4e0525f",
-			"revisionTime": "2016-08-01T18:58:13Z"
+			"revision": "7f7031bdf1637b9845ece5af0eea1d5a97ef06d8",
+			"revisionTime": "2016-10-29T23:53:39Z"
 		}
 	],
 	"rootPath": "Projeto-api"

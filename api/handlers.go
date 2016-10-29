@@ -1,11 +1,13 @@
 package main
 
 import (
-	"Projeto-api/db"
+	// "Projeto-api/db"
 	"encoding/json"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/tcc-denis-raul/Projeto-api/db"
 )
 
 /*
