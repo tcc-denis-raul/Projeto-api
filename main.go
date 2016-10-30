@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"Projeto-api/api"
 	"github.com/gin-gonic/gin"
+	api "github.com/tcc-denis-raul/Projeto-api/api"
 )
 
 var defaultPort = "5000"
