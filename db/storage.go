@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-
-	"github.com/tcc-denis-raul/Projeto-api/conf"
+	"os"
 )
 
 const (
@@ -18,18 +17,14 @@ type DB struct {
 	DBName  string
 }
 
-func GetSession(path_json ...string) (DB, error) {
-	host := DefaultDataBaseURL
-	name := DefaultDataBaseName
-	conf, err := conf.Conf(path_json...)
-	if err != nil {
-		return DB{}, err
+func GetSession() (DB, error) {
+	host := os.Getenv("MONGOLAB_URL")
+	name := os.Getenv("MONGO_DBNAME")
+	if host == "" {
+		host = DefaultDataBaseURL
 	}
-	if conf.URL != "" {
-		host = conf.URL
-	}
-	if conf.Name != "" {
-		name = conf.Name
+	if name == "" {
+		name = DefaultDataBaseName
 	}
 	session, err := mgo.Dial(host)
 	if err != nil {
@@ -41,7 +36,7 @@ func GetSession(path_json ...string) (DB, error) {
 }
 
 func (c *Courses) Feedback(typ, course string, path_json ...string) error {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}

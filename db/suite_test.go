@@ -5,8 +5,6 @@ import (
 
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2"
-
-	"github.com/tcc-denis-raul/Projeto-api/conf"
 )
 
 // Hook up gocheck into the "go test" runner.

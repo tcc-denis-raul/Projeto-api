@@ -24,7 +24,7 @@ type UserPreferences struct {
 }
 
 func (u *User) GetUser(path_json ...string) (User, error) {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return User{}, err
 	}
@@ -35,7 +35,7 @@ func (u *User) GetUser(path_json ...string) (User, error) {
 }
 
 func (u *User) CreateUser(path_json ...string) error {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
@@ -44,12 +44,12 @@ func (u *User) CreateUser(path_json ...string) error {
 }
 
 func (u *User) UpdateUser(path_json ...string) error {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
 	defer db.session.Close()
-	updateData, err := u.GetUser(path_json...)
+	updateData, err := u.GetUser()
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func (u *User) UpdateUser(path_json ...string) error {
 }
 
 func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
 }
 
 func (up *UserPreferences) GetUserPreferences(path_json ...string) (UserPreferences, error) {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return UserPreferences{}, err
 	}

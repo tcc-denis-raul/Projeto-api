@@ -15,7 +15,7 @@ type Questions struct {
 }
 
 func GetQuestions(typ string, path_json ...string) ([]Questions, error) {
-	db, err := GetSession(path_json...)
+	db, err := GetSession()
 	if err != nil {
 		return nil, err
 	}
