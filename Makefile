@@ -16,7 +16,7 @@ test:
 	go test ./...
 
 build:
-	go build -o build/projeto-api api/*
+	go build -o build/projeto-api .
 
 remove_build:
 	@rm -r build 2> /dev/null; true

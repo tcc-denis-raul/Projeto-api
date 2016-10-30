@@ -5,7 +5,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
-	"Projeto-api/conf"
+	"github.com/tcc-denis-raul/Projeto-api/conf"
 )
 
 const (

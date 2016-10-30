@@ -15,16 +15,22 @@
 			"revisionTime": "2016-06-05T23:35:21Z"
 		},
 		{
-			"checksumSHA1": "HH6yS5tgU+v7JqsCMOo3vzYnwBI=",
-			"path": "github.com/tcc-denis-raul/Projeto-api/conf",
-			"revision": "448db2ca300a0653d794e018ef736cb1e9c8b863",
-			"revisionTime": "2016-10-23T17:27:19Z"
+			"checksumSHA1": "/DZYtFUWSvWqKi1R/xrZm1g6fzs=",
+			"path": "github.com/tcc-denis-raul/Projeto-api/api",
+			"revision": "7995161061cfcb6e36e12d9c6d265c3eeb4a16ae",
+			"revisionTime": "2016-10-30T00:57:52Z"
 		},
 		{
-			"checksumSHA1": "Bz2YiNF0BQ4Q0QuhGkCwi/UUF/k=",
+			"checksumSHA1": "HH6yS5tgU+v7JqsCMOo3vzYnwBI=",
+			"path": "github.com/tcc-denis-raul/Projeto-api/conf",
+			"revision": "7995161061cfcb6e36e12d9c6d265c3eeb4a16ae",
+			"revisionTime": "2016-10-30T00:57:52Z"
+		},
+		{
+			"checksumSHA1": "rFV8vHNGDEw2fZGCUk2howR+Hkw=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/db",
-			"revision": "448db2ca300a0653d794e018ef736cb1e9c8b863",
-			"revisionTime": "2016-10-23T17:27:19Z"
+			"revision": "7995161061cfcb6e36e12d9c6d265c3eeb4a16ae",
+			"revisionTime": "2016-10-30T00:57:52Z"
 		},
 		{
 			"checksumSHA1": "I2d7Kn572Fz02mnnlcI4MHXCu0c=",
