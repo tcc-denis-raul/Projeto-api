@@ -1,6 +1,8 @@
 package db
 
 import (
+	"os"
+
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -12,7 +14,7 @@ func (s *StorageTest) TestCreateUser(c *C) {
 		Email:     "email",
 		UserName:  "username",
 	}
-	err := user.CreateUser("data_test")
+	err := user.CreateUser()
 	c.Check(err, IsNil)
 	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"username": "username"})
 	var u []User
@@ -25,16 +27,10 @@ func (s *StorageTest) TestCreateUser(c *C) {
 	c.Check(u[0].UserName, Equals, user.UserName)
 }
 
-func (s *StorageTest) TestCreateUserWrongPath(c *C) {
-	var user User
-	err := user.CreateUser("data")
-	c.Check(err, NotNil)
-	c.Check(err.Error(), Equals, "open data/paloma.json: no such file or directory")
-}
-
 func (s *StorageTest) TestCreateUserWrongURLDDB(c *C) {
+	os.Setenv("MONGOLAB_URL", "wrong")
 	var user User
-	err := user.CreateUser("wrong_test")
+	err := user.CreateUser()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "no reachable servers")
 }
@@ -46,7 +42,7 @@ func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
 		Email:     "email",
 		UserName:  "username",
 	}
-	err := user.CreateUser("data_test")
+	err := user.CreateUser()
 	c.Check(err, IsNil)
 	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"username": "username"})
 	var u []User
@@ -57,7 +53,7 @@ func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
 	c.Check(u[0].LastName, Equals, user.LastName)
 	c.Check(u[0].Email, Equals, user.Email)
 	c.Check(u[0].UserName, Equals, user.UserName)
-	err = user.CreateUser("data_test")
+	err = user.CreateUser()
 	c.Check(err, NotNil)
 }
 
@@ -68,7 +64,7 @@ func (s *StorageTest) TestUpdateUser(c *C) {
 		Email:     "email",
 		UserName:  "username",
 	}
-	err := user.CreateUser("data_test")
+	err := user.CreateUser()
 	c.Check(err, IsNil)
 	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"username": "username"})
 	var u []User
@@ -83,7 +79,7 @@ func (s *StorageTest) TestUpdateUser(c *C) {
 		FirstName: "name_mod",
 		UserName:  "username",
 	}
-	err = updateData.UpdateUser("data_test")
+	err = updateData.UpdateUser()
 	c.Check(err, IsNil)
 	err = s.session.DB(s.dbName).C("users").Find(bson.M{"username": "username"}).All(&u)
 	c.Check(err, IsNil)
@@ -101,7 +97,7 @@ func (s *StorageTest) TestUpdateUserNotExists(c *C) {
 		Email:     "email",
 		UserName:  "username",
 	}
-	err := user.UpdateUser("data_test")
+	err := user.UpdateUser()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "not found")
 }
@@ -115,7 +111,7 @@ func (s *StorageTest) TestSaveUserPreferencesUserDoesNotExists(c *C) {
 		Extra:    "extra",
 		Price:    "price",
 	}
-	err := preferences.SaveUserPreferences("data_test")
+	err := preferences.SaveUserPreferences()
 	c.Check(err, IsNil)
 	var prefers []UserPreferences
 	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
@@ -139,7 +135,7 @@ func (s *StorageTest) TestSaveUserPreferencesUserExists(c *C) {
 		Extra:    "extra",
 		Price:    "price",
 	}
-	err := preferences.SaveUserPreferences("data_test")
+	err := preferences.SaveUserPreferences()
 	c.Check(err, IsNil)
 	var prefers []UserPreferences
 	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
@@ -160,7 +156,7 @@ func (s *StorageTest) TestSaveUserPreferencesUserExists(c *C) {
 		Extra:    "extra2",
 		Price:    "price",
 	}
-	err = preferences2.SaveUserPreferences("data_test")
+	err = preferences2.SaveUserPreferences()
 	c.Check(err, IsNil)
 	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
 	c.Check(err, IsNil)

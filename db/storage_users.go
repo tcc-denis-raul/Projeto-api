@@ -23,8 +23,8 @@ type UserPreferences struct {
 	Price    string
 }
 
-func (u *User) GetUser(path_json ...string) (User, error) {
-	db, err := GetSession(path_json...)
+func (u *User) GetUser() (User, error) {
+	db, err := GetSession()
 	if err != nil {
 		return User{}, err
 	}
@@ -34,8 +34,8 @@ func (u *User) GetUser(path_json ...string) (User, error) {
 	return user, err
 }
 
-func (u *User) CreateUser(path_json ...string) error {
-	db, err := GetSession(path_json...)
+func (u *User) CreateUser() error {
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
@@ -43,13 +43,13 @@ func (u *User) CreateUser(path_json ...string) error {
 	return db.session.DB(db.DBName).C("users").Insert(u)
 }
 
-func (u *User) UpdateUser(path_json ...string) error {
-	db, err := GetSession(path_json...)
+func (u *User) UpdateUser() error {
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
 	defer db.session.Close()
-	updateData, err := u.GetUser(path_json...)
+	updateData, err := u.GetUser()
 	if err != nil {
 		return err
 	}
@@ -68,8 +68,8 @@ func (u *User) UpdateUser(path_json ...string) error {
 	return db.session.DB(db.DBName).C("users").Update(bson.M{"username": u.UserName}, bson.M{"$set": updateData})
 }
 
-func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
-	db, err := GetSession(path_json...)
+func (up *UserPreferences) SaveUserPreferences() error {
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}
@@ -78,8 +78,8 @@ func (up *UserPreferences) SaveUserPreferences(path_json ...string) error {
 	return err
 }
 
-func (up *UserPreferences) GetUserPreferences(path_json ...string) (UserPreferences, error) {
-	db, err := GetSession(path_json...)
+func (up *UserPreferences) GetUserPreferences() (UserPreferences, error) {
+	db, err := GetSession()
 	if err != nil {
 		return UserPreferences{}, err
 	}

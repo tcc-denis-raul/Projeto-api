@@ -1,26 +1,24 @@
 package db
 
 import (
+	"os"
+
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2/bson"
 )
 
 func (s *StorageTest) TestGetSession(c *C) {
-	db, err := GetSession("data_test")
+	os.Setenv("MONGOLAB_URL", "localhost:27017")
+	os.Setenv("MONGO_DBNAME", "paloma_test")
+	db, err := GetSession()
 	c.Check(err, IsNil)
 	c.Check(db.DBName, Equals, "paloma_test")
 	c.Check(db.session, NotNil)
 }
 
-func (s *StorageTest) TestGetSessionWrongPath(c *C) {
-	db, err := GetSession("data")
-	c.Check(err, NotNil)
-	c.Check(db.DBName, Equals, "")
-	c.Check(db.session, IsNil)
-}
-
 func (s *StorageTest) TestGetSessionWrongURL(c *C) {
-	db, err := GetSession("wrong_test")
+	os.Setenv("MONGOLAB_URL", "wrong")
+	db, err := GetSession()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "no reachable servers")
 	c.Check(db.DBName, Equals, "")
@@ -28,6 +26,7 @@ func (s *StorageTest) TestGetSessionWrongURL(c *C) {
 }
 
 func (s *StorageTest) TestFeedBackOk(c *C) {
+	os.Setenv("MONGO_DBNAME", "paloma_test")
 	courses := []Courses{
 		{
 			Name:        "name",
@@ -63,7 +62,7 @@ func (s *StorageTest) TestFeedBackOk(c *C) {
 		Name: "name",
 		Rate: 1,
 	}
-	err := course.Feedback("language", "ingles", "data_test")
+	err := course.Feedback("language", "ingles")
 	c.Check(err, IsNil)
 	var result []Courses
 	err = s.session.DB(s.dbName).C("language_ingles").Find(bson.M{"name": "name"}).All(&result)
@@ -74,11 +73,12 @@ func (s *StorageTest) TestFeedBackOk(c *C) {
 }
 
 func (s *StorageTest) TestFeedBackCourseNotFound(c *C) {
+	os.Setenv("MONGO_DBNAME", "paloma_test")
 	course := Courses{
 		Name: "name",
 		Rate: 1,
 	}
-	err := course.Feedback("language", "ingles", "data_test")
+	err := course.Feedback("language", "ingles")
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "not found")
 }

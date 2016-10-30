@@ -14,8 +14,8 @@ type Questions struct {
 	Extra    []map[string]string
 }
 
-func GetQuestions(typ string, path_json ...string) ([]Questions, error) {
-	db, err := GetSession(path_json...)
+func GetQuestions(typ string) ([]Questions, error) {
+	db, err := GetSession()
 	if err != nil {
 		return nil, err
 	}

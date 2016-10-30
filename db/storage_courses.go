@@ -111,8 +111,8 @@ func (f *Filter) limitCourse(courses []CourseScore) []Courses {
 	return result
 }
 
-func (f *Filter) GetCourses(path_json ...string) ([]Courses, error) {
-	db, err := GetSession(path_json...)
+func (f *Filter) GetCourses() ([]Courses, error) {
+	db, err := GetSession()
 	if err != nil {
 		return nil, err
 	}
@@ -129,8 +129,8 @@ func (f *Filter) GetCourses(path_json ...string) ([]Courses, error) {
 	return data, nil
 }
 
-func (f *CourseDetail) GetDetailCourse(path_json ...string) (Courses, error) {
-	db, err := GetSession(path_json...)
+func (f *CourseDetail) GetDetailCourse() (Courses, error) {
+	db, err := GetSession()
 	if err != nil {
 		return Courses{}, err
 	}
@@ -143,8 +143,8 @@ func (f *CourseDetail) GetDetailCourse(path_json ...string) (Courses, error) {
 	return course, nil
 }
 
-func GetTypeCourses(path_json ...string) ([]TypeCourses, error) {
-	db, err := GetSession(path_json...)
+func GetTypeCourses() ([]TypeCourses, error) {
+	db, err := GetSession()
 	if err != nil {
 		return nil, err
 	}
@@ -157,8 +157,8 @@ func GetTypeCourses(path_json ...string) ([]TypeCourses, error) {
 	return data, nil
 }
 
-func (i *IndicateCourse) IndicateCourse(path_json ...string) error {
-	db, err := GetSession(path_json...)
+func (i *IndicateCourse) IndicateCourse() error {
+	db, err := GetSession()
 	if err != nil {
 		return err
 	}

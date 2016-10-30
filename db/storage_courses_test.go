@@ -1,6 +1,8 @@
 package db
 
 import (
+	"os"
+
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -10,7 +12,7 @@ func (s *StorageTest) TestGetCoursesEmptyList(c *C) {
 		Type:   "language",
 		Course: "ingles",
 	}
-	data, err := f.GetCourses("data_test")
+	data, err := f.GetCourses()
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 0)
 }
@@ -49,7 +51,7 @@ func (s *StorageTest) TestGetCoursesReturnList(c *C) {
 		Type:   "language",
 		Course: "ingles",
 	}
-	data, err := f.GetCourses("data_test")
+	data, err := f.GetCourses()
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 2)
 	c.Check(data[0].Name, Equals, courses[0].Name)
@@ -72,30 +74,20 @@ func (s *StorageTest) TestGetCoursesReturnList(c *C) {
 	c.Check(data[1].Description, DeepEquals, courses[1].Description)
 }
 
-func (s *StorageTest) TestGetCoursesWrongPath(c *C) {
-	f := Filter{
-		Type:   "language",
-		Course: "ingles",
-	}
-	data, err := f.GetCourses("data")
-	c.Check(err, NotNil)
-	c.Check(err.Error(), Equals, "open data/paloma.json: no such file or directory")
-	c.Check(len(data), Equals, 0)
-}
-
 func (s *StorageTest) TestGetCoursesWrongURLDDB(c *C) {
+	os.Setenv("MONGOLAB_URL", "wrong")
 	f := Filter{
 		Type:   "language",
 		Course: "ingles",
 	}
-	data, err := f.GetCourses("wrong_test")
+	data, err := f.GetCourses()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "no reachable servers")
 	c.Check(len(data), Equals, 0)
 }
 
 func (s *StorageTest) TestGetTypeCoursesEmptyList(c *C) {
-	data, err := GetTypeCourses("data_test")
+	data, err := GetTypeCourses()
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 0)
 }
@@ -107,7 +99,7 @@ func (s *StorageTest) TestGetTypeCoursesLanguage(c *C) {
 	err := s.session.DB(s.dbName).C("courses").Insert(&typeCourse)
 	c.Check(err, IsNil)
 	defer s.session.DB(s.dbName).C("courses").Remove(nil)
-	data, err := GetTypeCourses("data_test")
+	data, err := GetTypeCourses()
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 1)
 	c.Check(data[0].Language, DeepEquals, []string{"ingles"})
@@ -258,7 +250,7 @@ func (s *StorageTest) TestIndicateCourse(c *C) {
 		Name:   "indication",
 		Url:    "url",
 	}
-	err := indication.IndicateCourse("data_test")
+	err := indication.IndicateCourse()
 	defer s.session.DB(s.dbName).C("indicate_courses").Remove(nil)
 	c.Check(err, IsNil)
 	var result []IndicateCourse
@@ -278,7 +270,7 @@ func (s *StorageTest) TestIndicateCourseAlreadyIndicate(c *C) {
 		Name:   "indication",
 		Url:    "url",
 	}
-	err := indication.IndicateCourse("data_test")
+	err := indication.IndicateCourse()
 	defer s.session.DB(s.dbName).C("indicate_courses").Remove(nil)
 	c.Check(err, IsNil)
 	var result []IndicateCourse
@@ -289,7 +281,7 @@ func (s *StorageTest) TestIndicateCourseAlreadyIndicate(c *C) {
 	c.Check(result[0].Type, Equals, indication.Type)
 	c.Check(result[0].Course, Equals, indication.Course)
 	c.Check(result[0].Url, Equals, indication.Url)
-	err = indication.IndicateCourse("data_test")
+	err = indication.IndicateCourse()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "Course already indicate")
 }
@@ -313,7 +305,7 @@ func (s *StorageTest) TestIndicateCourseAlreadyInDataBase(c *C) {
 		Type:   "language",
 		Course: "ingles",
 	}
-	data, err := f.GetCourses("data_test")
+	data, err := f.GetCourses()
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 1)
 	c.Check(data[0].Name, Equals, Course.Name)
@@ -323,7 +315,7 @@ func (s *StorageTest) TestIndicateCourseAlreadyInDataBase(c *C) {
 		Name:   "name3",
 		Url:    "url_course",
 	}
-	err = indication.IndicateCourse("data_test")
+	err = indication.IndicateCourse()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "Course already exists on list of courses")
 }
@@ -348,7 +340,7 @@ func (s *StorageTest) TestCourseDetail(c *C) {
 		Course: "ingles",
 		Name:   "name3",
 	}
-	data, err := f.GetDetailCourse("data_test")
+	data, err := f.GetDetailCourse()
 	c.Check(err, IsNil)
 	c.Check(data.Name, DeepEquals, Course.Name)
 	c.Check(data.Url, DeepEquals, Course.Url)
@@ -366,7 +358,7 @@ func (s *StorageTest) TestCourseDetailNotExistCourse(c *C) {
 		Course: "ingles",
 		Name:   "aba",
 	}
-	data, err := f.GetDetailCourse("data_test")
+	data, err := f.GetDetailCourse()
 	c.Check(err, NotNil)
 	c.Check(err.Error(), Equals, "not found")
 	c.Check(data, DeepEquals, Courses{})

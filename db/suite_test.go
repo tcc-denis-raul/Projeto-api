@@ -1,12 +1,11 @@
 package db
 
 import (
+	"os"
 	"testing"
 
 	. "gopkg.in/check.v1"
 	"gopkg.in/mgo.v2"
-
-	"github.com/tcc-denis-raul/Projeto-api/conf"
 )
 
 // Hook up gocheck into the "go test" runner.
@@ -24,13 +23,11 @@ func (s *StorageTest) TearDownSuite(c *C) {
 }
 
 func (s *StorageTest) SetUpTest(c *C) {
-	conf, err := conf.Conf("data_test")
+	os.Setenv("MONGO_DBNAME", "paloma_test")
+	session, err := mgo.Dial("localhost:27017")
 	c.Check(err, IsNil)
-	c.Check(conf.URL, Equals, "localhost")
-	c.Check(conf.Name, Equals, "paloma_test")
-	s.session, err = mgo.Dial(conf.URL)
-	c.Check(err, IsNil)
-	s.dbName = conf.Name
+	s.dbName = "paloma_test"
+	s.session = session
 	err = s.session.DB(s.dbName).C("users").EnsureIndex(mgo.Index{Key: []string{"username"}, Unique: true})
 	c.Check(err, IsNil)
 	err = s.session.DB(s.dbName).C("language_ingles").EnsureIndex(mgo.Index{Key: []string{"name"}, Unique: true})

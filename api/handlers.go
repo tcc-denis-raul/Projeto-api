@@ -1,13 +1,17 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/tcc-denis-raul/Projeto-api/db"
 )
+
+func Hello(c *gin.Context) {
+	c.String(http.StatusOK, "HELLO")
+}
 
 /*
 title: get type courses
@@ -21,21 +25,18 @@ response:
 	500: Internal error
 */
 
-func GetTypeCourses(w http.ResponseWriter, r *http.Request) {
+func GetTypeCourses(c *gin.Context) {
 	typesCourses, err := db.GetTypeCourses()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
 	if len(typesCourses) == 0 {
-		http.Error(w, "No Content", http.StatusNoContent)
+		c.String(http.StatusNoContent, "No Content")
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(typesCourses); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, typesCourses)
+	return
 }
 
 /*
@@ -50,42 +51,37 @@ response:
 	404: Not found
 	500: Internal error
 */
-func GetCourses(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	leng, err := strconv.Atoi(r.FormValue("length"))
+func GetCourses(c *gin.Context) {
+	leng, err := strconv.Atoi(c.Query("length"))
 	if err != nil {
 		leng = 0
 	}
 	filter := db.Filter{
-		Type:     r.FormValue("type"),
-		Course:   r.FormValue("course"),
-		Based:    r.FormValue("based"),
-		Dynamic:  r.FormValue("dynamic"),
-		Platform: r.FormValue("platform"),
-		Extra:    r.FormValue("extra"),
-		Price:    r.FormValue("price"),
+		Type:     c.Query("type"),
+		Course:   c.Query("course"),
+		Based:    c.Query("based"),
+		Dynamic:  c.Query("dynamic"),
+		Platform: c.Query("platform"),
+		Extra:    c.Query("extra"),
+		Price:    c.Query("price"),
 		Length:   leng,
 	}
 
 	if filter.Type == "" || filter.Course == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 
 	courses, err := filter.GetCourses()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
 	if len(courses) == 0 {
-		http.Error(w, "No Content", http.StatusNoContent)
+		c.String(http.StatusNoContent, "No Content")
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(courses); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, courses)
 }
 
 /*
@@ -100,28 +96,24 @@ response:
 	404: Not found
 	500: Internal error
 */
-func GetQuestions(w http.ResponseWriter, r *http.Request) {
-	typ := r.FormValue("type")
+func GetQuestions(c *gin.Context) {
+	typ := c.Query("type")
 
 	if typ == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 
 	questions, err := db.GetQuestions(typ)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
 	if len(questions) == 0 {
-		http.Error(w, "No Content", http.StatusNoContent)
+		c.String(http.StatusNoContent, "No Content")
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(questions); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, questions)
 
 }
 
@@ -137,26 +129,22 @@ response:
 	500: Internal error
 
 */
-func GetDetailCourse(w http.ResponseWriter, r *http.Request) {
+func GetDetailCourse(c *gin.Context) {
 	filter := db.CourseDetail{
-		Type:   r.FormValue("type"),
-		Course: r.FormValue("course"),
-		Name:   r.FormValue("name"),
+		Type:   c.Query("type"),
+		Course: c.Query("course"),
+		Name:   c.Query("name"),
 	}
 	if filter.Type == "" || filter.Course == "" || filter.Name == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	course, err := filter.GetDetailCourse()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(course); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, course)
 }
 
 /*
@@ -169,10 +157,10 @@ response:
 	409: User already exists
 */
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
-	email := r.FormValue("email")
+func GetUser(c *gin.Context) {
+	email := c.Query("email")
 	if email == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	user := db.User{
@@ -180,14 +168,10 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	u, err := user.GetUser()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(u); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, u)
 }
 
 /*
@@ -199,27 +183,26 @@ response:
 	400: Invalid data
 	409: User already exists
 */
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func CreateUser(c *gin.Context) {
 	user := db.User{
-		FirstName: r.FormValue("firtname"),
-		LastName:  r.FormValue("lastname"),
-		Email:     r.FormValue("email"),
-		UserName:  r.FormValue("username"),
+		FirstName: c.Query("firtname"),
+		LastName:  c.Query("lastname"),
+		Email:     c.Query("email"),
+		UserName:  c.Query("username"),
 		Created:   time.Now(),
 	}
 
 	if user.FirstName == "" || user.LastName == "" || user.Email == "" || user.UserName == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 
 	err := user.CreateUser()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusConflict)
+		c.String(http.StatusConflict, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-
+	c.String(http.StatusOK, "")
 }
 
 /*
@@ -231,24 +214,24 @@ response:
 	400: Invalid data
 	404: user not found
 */
-func UpdateUser(w http.ResponseWriter, r *http.Request) {
+func UpdateUser(c *gin.Context) {
 	user := db.User{
-		FirstName: r.FormValue("firtname"),
-		LastName:  r.FormValue("lastname"),
-		Email:     r.FormValue("email"),
-		UserName:  r.FormValue("username"),
+		FirstName: c.Query("firtname"),
+		LastName:  c.Query("lastname"),
+		Email:     c.Query("email"),
+		UserName:  c.Query("username"),
 	}
 	if user.UserName == "" || user.FirstName == "" && user.LastName == "" && user.Email == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 
 	err := user.UpdateUser()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	c.String(http.StatusOK, "")
 }
 
 /*
@@ -260,29 +243,29 @@ reponse:
 	400: invalid data
 	404: course not found
 */
-func Feedback(w http.ResponseWriter, r *http.Request) {
+func Feedback(c *gin.Context) {
 	var course db.Courses
-	t := r.FormValue("type")
-	c := r.FormValue("course")
-	vote := r.FormValue("vote")
-	name := r.FormValue("name")
-	if t == "" || c == "" || vote == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+	typ := c.Query("type")
+	cou := c.Query("course")
+	vote := c.Query("vote")
+	name := c.Query("name")
+	if typ == "" || cou == "" || vote == "" {
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	rate, err := strconv.Atoi(vote)
 	if err != nil {
-		http.Error(w, "Invalid data, rate must be a integer", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data, rate must be a integer")
 		return
 	}
 	course.Rate = rate
 	course.Name = name
-	err = course.Feedback(t, c)
+	err = course.Feedback(typ, cou)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	c.String(http.StatusOK, "")
 }
 
 /*
@@ -294,24 +277,24 @@ response:
 	400: invalid data
 	409: course already exists
 */
-func IndicateCourse(w http.ResponseWriter, r *http.Request) {
+func IndicateCourse(c *gin.Context) {
 	indication := db.IndicateCourse{
-		Type:   r.FormValue("type"),
-		Course: r.FormValue("course"),
-		Name:   r.FormValue("name"),
-		Url:    r.FormValue("url"),
+		Type:   c.Query("type"),
+		Course: c.Query("course"),
+		Name:   c.Query("name"),
+		Url:    c.Query("url"),
 	}
 	if indication.Type == "" || indication.Course == "" ||
 		indication.Name == "" || indication.Url == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	err := indication.IndicateCourse()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusConflict)
+		c.String(http.StatusConflict, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	c.String(http.StatusOK, "")
 }
 
 /*
@@ -323,44 +306,39 @@ response:
 	400: invalid data
 	500: internal error
 */
-func SaveUserPreferences(w http.ResponseWriter, r *http.Request) {
+func SaveUserPreferences(c *gin.Context) {
 	preferences := db.UserPreferences{
-		UserName: r.FormValue("username"),
-		Based:    r.FormValue("based"),
-		Dynamic:  r.FormValue("dynamic"),
-		Platform: r.FormValue("platform"),
-		Extra:    r.FormValue("extra"),
-		Price:    r.FormValue("price"),
+		UserName: c.Query("username"),
+		Based:    c.Query("based"),
+		Dynamic:  c.Query("dynamic"),
+		Platform: c.Query("platform"),
+		Extra:    c.Query("extra"),
+		Price:    c.Query("price"),
 	}
 	if preferences.UserName == "" {
-		http.Error(w, "Invalid Data 2", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	err := preferences.SaveUserPreferences()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	c.String(http.StatusOK, "")
 }
 
-func GetUserPreferences(w http.ResponseWriter, r *http.Request) {
+func GetUserPreferences(c *gin.Context) {
 	user := db.UserPreferences{
-		UserName: r.FormValue("username"),
+		UserName: c.Query("username"),
 	}
 	if user.UserName == "" {
-		http.Error(w, "Invalid Data", http.StatusBadRequest)
+		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
 	u, err := user.GetUserPreferences()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	if err := json.NewEncoder(w).Encode(u); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, u)
 }

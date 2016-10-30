@@ -5,7 +5,7 @@ import (
 )
 
 func (s *StorageTest) TestGetQuestionsEmptyList(c *C) {
-	data, err := GetQuestions("language", "data_test")
+	data, err := GetQuestions("language")
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 0)
 }
@@ -35,7 +35,7 @@ func (s *StorageTest) TestGetQuestionsReturnList(c *C) {
 		c.Check(err, IsNil)
 		defer s.session.DB(s.dbName).C("questions_language").Remove(nil)
 	}
-	data, err := GetQuestions("language", "data_test")
+	data, err := GetQuestions("language")
 	c.Check(err, IsNil)
 	c.Check(len(data), Equals, 1)
 	c.Check(data[0].Based, DeepEquals, questions[0].Based)

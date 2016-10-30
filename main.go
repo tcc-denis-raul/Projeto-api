@@ -1,23 +1,37 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
 	"os"
 
-	"github.com/tcc-denis-raul/Projeto-api/api"
+	"Projeto-api/api"
+	"github.com/gin-gonic/gin"
 )
 
-var DefaultPort = "5000"
+var defaultPort = "5000"
 
 func main() {
-
-	router := api.NewRouter()
-	port := DefaultPort
-	if os.Getenv("API_PORT") != "" {
-		port = os.Getenv("API_PORT")
+	/*Port*/
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
 	}
-	log.Println("listening on port: ", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
+
+	router := gin.Default()
+
+	/*Route*/
+	router.GET("/", api.Hello)
+	router.GET("/types/courses", api.GetTypeCourses)
+	router.GET("/courses", api.GetCourses)
+	router.GET("/courses/questions", api.GetQuestions)
+	router.GET("/users", api.GetUser)
+	router.GET("/users/profile", api.GetUserPreferences)
+	router.GET("/course/detail", api.GetDetailCourse)
+
+	router.POST("/indicate/course", api.IndicateCourse)
+	router.POST("/course/feedback", api.Feedback)
+	router.POST("/users", api.CreateUser)
+	router.POST("/users/update", api.UpdateUser)
+	router.POST("/users/profile", api.SaveUserPreferences)
+
+	router.Run(":" + port)
 }
