@@ -1,7 +1,6 @@
-package main
+package api
 
 import (
-	// "Projeto-api/db"
 	"encoding/json"
 	"net/http"
 	"strconv"

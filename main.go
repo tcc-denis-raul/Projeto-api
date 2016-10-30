@@ -5,13 +5,15 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/tcc-denis-raul/Projeto-api/api"
 )
 
 var DefaultPort = "5000"
 
 func main() {
 
-	router := NewRouter()
+	router := api.NewRouter()
 	port := DefaultPort
 	if os.Getenv("API_PORT") != "" {
 		port = os.Getenv("API_PORT")
