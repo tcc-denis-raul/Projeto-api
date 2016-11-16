@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 )
 
 type Courses struct {
@@ -91,6 +92,10 @@ func (f *Filter) filterCourse(data []Courses) []CourseScore {
 		if f.Extra != "" && hasStr(f.Extra, data[index].Extra) {
 			score++
 		}
+		fmt.Println("teste")
+		log.Println("a")
+		log.Println("price", f.Price)
+		log.Println("price2", data[index].Price)
 		scored = append(scored, CourseScore{
 			Course: data[index],
 			Score:  score,

@@ -66,7 +66,6 @@ func GetCourses(c *gin.Context) {
 		Price:    c.Query("price"),
 		Length:   leng,
 	}
-
 	if filter.Type == "" || filter.Course == "" {
 		c.String(http.StatusBadRequest, "Invalid data")
 		return

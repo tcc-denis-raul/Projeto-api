@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 )
 
 type Courses struct {
@@ -75,6 +76,15 @@ func SortScore(cs []CourseScore) {
 	}
 }
 
+func (f *Filter) checkPrice(data Courses) bool {
+	price_range := make(map[string][]int)
+	price_range["gratis"] = []int{0, 0}
+	log.Println(price_range)
+	log.Println(f.Price)
+	// log.Println(data.PriceReal)log.Println(data.PriceDolar)
+	return true
+}
+
 func (f *Filter) filterCourse(data []Courses) []CourseScore {
 	scored := make([]CourseScore, 0)
 	for index := range data {
@@ -91,6 +101,8 @@ func (f *Filter) filterCourse(data []Courses) []CourseScore {
 		if f.Extra != "" && hasStr(f.Extra, data[index].Extra) {
 			score++
 		}
+		price := f.checkPrice(data[index])
+		_ = price
 		scored = append(scored, CourseScore{
 			Course: data[index],
 			Score:  score,

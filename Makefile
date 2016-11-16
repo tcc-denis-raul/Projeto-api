@@ -10,7 +10,7 @@ deps: remove_deps _deps
 run_:
 	build/projeto-api
 
-run: deps remove_build build run_
+run: remove_build build run_
 
 test:
 	go test ./...

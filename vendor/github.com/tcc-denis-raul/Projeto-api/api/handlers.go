@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -52,6 +53,7 @@ response:
 	500: Internal error
 */
 func GetCourses(c *gin.Context) {
+	log.Println("GetCourses")
 	leng, err := strconv.Atoi(c.Query("length"))
 	if err != nil {
 		leng = 0
@@ -66,12 +68,12 @@ func GetCourses(c *gin.Context) {
 		Price:    c.Query("price"),
 		Length:   leng,
 	}
-
 	if filter.Type == "" || filter.Course == "" {
 		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
-
+	log.Println(filter)
+	log.Println(filter.Price)
 	courses, err := filter.GetCourses()
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
