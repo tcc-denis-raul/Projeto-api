@@ -3,6 +3,24 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "83g6d5yjT+v+m0E6yA9OMOHXvgQ=",
+			"path": "Projeto-api",
+			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
+			"revisionTime": "2016-11-17T17:58:03Z"
+		},
+		{
+			"checksumSHA1": "LYd0ZCiRKkuVi9sG9c3NuHBPKYk=",
+			"path": "Projeto-api/api",
+			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
+			"revisionTime": "2016-11-17T17:58:03Z"
+		},
+		{
+			"checksumSHA1": "dUl8Ft75vYP7Zyoc6HkFWADl2rI=",
+			"path": "Projeto-api/db",
+			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
+			"revisionTime": "2016-11-17T17:58:03Z"
+		},
+		{
 			"checksumSHA1": "RDDo6zqKb6Mpa4EOFv0RT8ryXvQ=",
 			"path": "github.com/gin-gonic/gin",
 			"revision": "3900df04d2a88e22beaf6a2970c63648b9e1b0e1",
@@ -35,14 +53,14 @@
 		{
 			"checksumSHA1": "9gIvQVKCGvNmO+0QSDPX3jrDP4Y=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/api",
-			"revision": "6f947426647a305a9cd0c6560c56dd0b093c9b31",
-			"revisionTime": "2016-10-30T07:47:57Z"
+			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
+			"revisionTime": "2016-11-17T17:58:03Z"
 		},
 		{
-			"checksumSHA1": "RpU63BeQeG/ldY4f3j3sup1i+JA=",
+			"checksumSHA1": "o6YyERWb9ZnG7hX+O5qdarpQUxI=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/db",
-			"revision": "6f947426647a305a9cd0c6560c56dd0b093c9b31",
-			"revisionTime": "2016-10-30T07:47:57Z"
+			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
+			"revisionTime": "2016-11-17T17:58:03Z"
 		},
 		{
 			"checksumSHA1": "4hQNaJUg67lF/QcO0NKzUeqlaew=",
