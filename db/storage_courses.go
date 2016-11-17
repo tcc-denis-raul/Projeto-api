@@ -75,7 +75,52 @@ func SortScore(cs []CourseScore) {
 	}
 }
 
+func check(values, limit []float64, mult float64) bool {
+	for _, value := range values {
+		if value*mult >= limit[0] && value*mult <= limit[1] {
+			return true
+		}
+	}
+	return false
+}
+
+func (f *Filter) checkPrice(data Courses, mult float64, dolar bool) bool {
+	price_range := map[string][]float64{
+		"gratis":  []float64{0.0, 0.0},
+		"ate30":   []float64{0.0, 30.0},
+		"31a60":   []float64{31.0, 60.0},
+		"61a100":  []float64{61.0, 100.0},
+		"101a150": []float64{101.0, 150.0},
+		"151mais": []float64{151.0, 10000.0},
+	}
+	limit := price_range[f.Price]
+	if !dolar {
+		return check(data.PriceReal, limit, mult)
+	} else {
+		return check(data.PriceDolar, limit, mult)
+	}
+}
+
+func getDolar() float64 {
+	resp, err := http.Get("http://dolarhoje.com/cotacao.txt")
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	fmt := strings.Replace(string(body), ",", ".", 1)
+	f, err := strconv.ParseFloat(fmt, 64)
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	return f
+}
+
 func (f *Filter) filterCourse(data []Courses) []CourseScore {
+	dolar := getDolar()
 	scored := make([]CourseScore, 0)
 	for index := range data {
 		score := 0
@@ -90,6 +135,13 @@ func (f *Filter) filterCourse(data []Courses) []CourseScore {
 		}
 		if f.Extra != "" && hasStr(f.Extra, data[index].Extra) {
 			score++
+		}
+		if f.Price != "" {
+			if f.checkPrice(data[index], 1.0, false) {
+				score++
+			} else if f.checkPrice(data[index], dolar, true) {
+				score++
+			}
 		}
 		scored = append(scored, CourseScore{
 			Course: data[index],
