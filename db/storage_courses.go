@@ -4,6 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"gopkg.in/mgo.v2/bson"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Courses struct {
