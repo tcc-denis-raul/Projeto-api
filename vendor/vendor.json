@@ -3,24 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "83g6d5yjT+v+m0E6yA9OMOHXvgQ=",
-			"path": "Projeto-api",
-			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
-			"revisionTime": "2016-11-17T17:58:03Z"
-		},
-		{
-			"checksumSHA1": "LYd0ZCiRKkuVi9sG9c3NuHBPKYk=",
-			"path": "Projeto-api/api",
-			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
-			"revisionTime": "2016-11-17T17:58:03Z"
-		},
-		{
-			"checksumSHA1": "dUl8Ft75vYP7Zyoc6HkFWADl2rI=",
-			"path": "Projeto-api/db",
-			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
-			"revisionTime": "2016-11-17T17:58:03Z"
-		},
-		{
 			"checksumSHA1": "RDDo6zqKb6Mpa4EOFv0RT8ryXvQ=",
 			"path": "github.com/gin-gonic/gin",
 			"revision": "3900df04d2a88e22beaf6a2970c63648b9e1b0e1",
@@ -51,19 +33,20 @@
 			"revisionTime": "2016-01-26T18:01:36Z"
 		},
 		{
-			"checksumSHA1": "9gIvQVKCGvNmO+0QSDPX3jrDP4Y=",
+			"checksumSHA1": "gcJmdNJ5yQ3MUqkZDKYOPXiYGGs=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/api",
-			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
-			"revisionTime": "2016-11-17T17:58:03Z"
+			"revision": "40b0bbe083398d4160b257f7cd3c4495d2be0f0b",
+			"revisionTime": "2016-11-19T05:02:24Z"
 		},
 		{
-			"checksumSHA1": "o6YyERWb9ZnG7hX+O5qdarpQUxI=",
+			"checksumSHA1": "Da5PmVidraQh6G0OP9uA8GZqhMo=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/db",
-			"revision": "01b95a13dc63fbff0fdf5e2a00653c3df62fb84d",
-			"revisionTime": "2016-11-17T17:58:03Z"
+			"revision": "40b0bbe083398d4160b257f7cd3c4495d2be0f0b",
+			"revisionTime": "2016-11-19T05:02:24Z"
 		},
 		{
 			"checksumSHA1": "4hQNaJUg67lF/QcO0NKzUeqlaew=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/golang.org/x/net/context",
 			"path": "golang.org/x/net/context",
 			"revision": "76c1a11e06a6d0fcd17b3830b8e1b87a2ade4a9c",
 			"revisionTime": "2016-10-29T19:01:05Z"
@@ -76,36 +59,42 @@
 		},
 		{
 			"checksumSHA1": "39V1idWER42Lmcmg2Uy40wMzOlo=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/go-playground/validator.v8",
 			"path": "gopkg.in/go-playground/validator.v8",
 			"revision": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c",
 			"revisionTime": "2016-07-18T13:41:25Z"
 		},
 		{
 			"checksumSHA1": "o+ZqT87RLprKCGKMboo5vCxdAvA=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/mgo.v2",
 			"path": "gopkg.in/mgo.v2",
 			"revision": "29cc868a5ca65f401ff318143f9408d02f4799cc",
 			"revisionTime": "2016-06-09T18:00:28Z"
 		},
 		{
 			"checksumSHA1": "zTjQOFGy4XTv4L33Kd2FhrV+mbM=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/mgo.v2/bson",
 			"path": "gopkg.in/mgo.v2/bson",
 			"revision": "29cc868a5ca65f401ff318143f9408d02f4799cc",
 			"revisionTime": "2016-06-09T18:00:28Z"
 		},
 		{
 			"checksumSHA1": "CkCDTsyN2Lbj1cL8+oaYKoPpI9w=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/mgo.v2/internal/sasl",
 			"path": "gopkg.in/mgo.v2/internal/sasl",
 			"revision": "29cc868a5ca65f401ff318143f9408d02f4799cc",
 			"revisionTime": "2016-06-09T18:00:28Z"
 		},
 		{
 			"checksumSHA1": "+1WDRPaOphSCmRMxVPIPBV4aubc=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/mgo.v2/internal/scram",
 			"path": "gopkg.in/mgo.v2/internal/scram",
 			"revision": "29cc868a5ca65f401ff318143f9408d02f4799cc",
 			"revisionTime": "2016-06-09T18:00:28Z"
 		},
 		{
 			"checksumSHA1": "12GqsW8PiRPnezDDy0v4brZrndM=",
+			"origin": "github.com/tcc-denis-raul/Projeto-api/vendor/gopkg.in/yaml.v2",
 			"path": "gopkg.in/yaml.v2",
 			"revision": "a5b47d31c556af34a302ce5d659e6fea44d90de0",
 			"revisionTime": "2016-09-28T15:37:09Z"

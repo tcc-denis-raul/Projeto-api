@@ -253,14 +253,9 @@ func Feedback(c *gin.Context) {
 		c.String(http.StatusBadRequest, "Invalid data")
 		return
 	}
-	rate, err := strconv.Atoi(vote)
-	if err != nil {
-		c.String(http.StatusBadRequest, "Invalid data, rate must be a integer")
-		return
-	}
-	course.Rate = rate
+	course.Rate = vote
 	course.Name = name
-	err = course.Feedback(typ, cou)
+	err := course.Feedback(typ, cou)
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
 		return

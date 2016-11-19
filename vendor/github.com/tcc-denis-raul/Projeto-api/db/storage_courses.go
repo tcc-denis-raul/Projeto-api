@@ -22,7 +22,7 @@ type Courses struct {
 	Url         string
 	Extra       []string
 	Description string
-	Rate        int
+	Rate        string
 }
 
 type CourseScore struct {
