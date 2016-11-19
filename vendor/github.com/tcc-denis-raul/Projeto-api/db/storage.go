@@ -41,5 +41,5 @@ func (c *Courses) Feedback(typ, course string) error {
 		return err
 	}
 	defer db.session.Close()
-	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$inc": bson.M{"rate": c.Rate}})
+	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$set": bson.M{"rate": c.Rate}})
 }
