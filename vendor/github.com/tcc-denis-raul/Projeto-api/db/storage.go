@@ -41,5 +41,12 @@ func (c *Courses) Feedback(typ, course string) error {
 		return err
 	}
 	defer db.session.Close()
-	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$set": bson.M{"rate": c.Rate}})
+	var cs Courses
+	err = db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Find(bson.M{"name": c.Name}).One(&cs)
+	if err != nil {
+		return err
+	}
+	count := cs.Count + 1
+	rate := (c.Rate + cs.Rate) / float64(count)
+	return db.session.DB(db.DBName).C(fmt.Sprintf("%s_%s", typ, course)).Update(bson.M{"name": c.Name}, bson.M{"$set": bson.M{"rate": rate, "count": count}})
 }

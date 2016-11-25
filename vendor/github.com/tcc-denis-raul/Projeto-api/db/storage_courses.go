@@ -22,12 +22,13 @@ type Courses struct {
 	Url         string
 	Extra       []string
 	Description string
-	Rate        string
+	Rate        float64
+	Count       int
 }
 
 type CourseScore struct {
 	Course Courses
-	Score  int
+	Score  float64
 }
 
 type Filter struct {
@@ -148,9 +149,10 @@ func (f *Filter) filterCourse(data []Courses) []CourseScore {
 				score++
 			}
 		}
+		score_float := (float64(score) + data[index].Rate) / 2
 		scored = append(scored, CourseScore{
 			Course: data[index],
-			Score:  score,
+			Score:  score_float,
 		})
 	}
 	SortScore(scored)

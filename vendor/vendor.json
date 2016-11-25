@@ -33,16 +33,16 @@
 			"revisionTime": "2016-01-26T18:01:36Z"
 		},
 		{
-			"checksumSHA1": "gcJmdNJ5yQ3MUqkZDKYOPXiYGGs=",
+			"checksumSHA1": "hNHNCtT1s1QG5kc1MX2GAlgdeMU=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/api",
-			"revision": "2f186569b5fd90cc31c66665df9094e7c5c57c3f",
-			"revisionTime": "2016-11-19T11:31:37Z"
+			"revision": "b92d09dc16aaddce69c3b984139290ba88e9e9ce",
+			"revisionTime": "2016-11-25T15:33:25Z"
 		},
 		{
-			"checksumSHA1": "rq6rm+ArgnZK/F1C9wpBzTrhlws=",
+			"checksumSHA1": "Gt4jscHRqiY2TA3sa5nmWhO7wsU=",
 			"path": "github.com/tcc-denis-raul/Projeto-api/db",
-			"revision": "2f186569b5fd90cc31c66665df9094e7c5c57c3f",
-			"revisionTime": "2016-11-19T11:31:37Z"
+			"revision": "b92d09dc16aaddce69c3b984139290ba88e9e9ce",
+			"revisionTime": "2016-11-25T15:33:25Z"
 		},
 		{
 			"checksumSHA1": "4hQNaJUg67lF/QcO0NKzUeqlaew=",
@@ -100,5 +100,5 @@
 			"revisionTime": "2016-09-28T15:37:09Z"
 		}
 	],
-	"rootPath": "Projeto-api"
+	"rootPath": "github/Projeto-api"
 }
