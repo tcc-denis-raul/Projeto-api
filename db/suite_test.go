@@ -18,8 +18,9 @@ type StorageTest struct {
 
 var _ = Suite(&StorageTest{})
 
-func (s *StorageTest) TearDownSuite(c *C) {
+func (s *StorageTest) TearDownTest(c *C) {
 	defer s.session.Close()
+	os.Setenv("MONGOLAB_URL", "")
 }
 
 func (s *StorageTest) SetUpTest(c *C) {
