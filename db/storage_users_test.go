@@ -57,6 +57,35 @@ func (s *StorageTest) TestCreateUserAlreadyExists(c *C) {
 	c.Check(err, NotNil)
 }
 
+func (s *StorageTest) TestGetUser(c *C) {
+	user := User{
+		FirstName: "first",
+		LastName:  "last",
+		Email:     "email",
+		UserName:  "username",
+	}
+	err := user.CreateUser()
+	c.Check(err, IsNil)
+	defer s.session.DB(s.dbName).C("users").RemoveAll(bson.M{"username": "username"})
+	u := User{
+		UserName: "username",
+	}
+	a, err := u.GetUser()
+	c.Check(err, IsNil)
+	c.Check(a.UserName, Equals, "username")
+	c.Check(a.Email, Equals, "email")
+}
+
+func (s *StorageTest) TestGetUserDoesNotExists(c *C) {
+	u := User{
+		UserName: "inexist",
+	}
+	user, err := u.GetUser()
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "not found")
+	c.Check(user.UserName, Equals, "")
+}
+
 func (s *StorageTest) TestUpdateUser(c *C) {
 	user := User{
 		FirstName: "first",
@@ -167,4 +196,41 @@ func (s *StorageTest) TestSaveUserPreferencesUserExists(c *C) {
 	c.Check(prefers[0].Platform, Equals, preferences2.Platform)
 	c.Check(prefers[0].Extra, Equals, preferences2.Extra)
 	c.Check(prefers[0].Price, Equals, preferences2.Price)
+}
+
+func (s *StorageTest) TestGetUserPreference(c *C) {
+	preferences := UserPreferences{
+		UserName: "username",
+		Based:    "based",
+		Dynamic:  "dynamic",
+		Platform: "platform",
+		Extra:    "extra",
+		Price:    "price",
+	}
+	err := preferences.SaveUserPreferences()
+	c.Check(err, IsNil)
+	var prefers []UserPreferences
+	err = s.session.DB(s.dbName).C("user_profile_courses").Find(bson.M{"username": "username"}).All(&prefers)
+	defer s.session.DB(s.dbName).C("user_profile_courses").RemoveAll(bson.M{"username": "username"})
+	c.Check(err, IsNil)
+	prefer := UserPreferences{
+		UserName: "username",
+	}
+	preference, err := prefer.GetUserPreferences()
+	c.Check(err, IsNil)
+	c.Check(preference.Based, Equals, "based")
+	c.Check(preference.Dynamic, Equals, "dynamic")
+	c.Check(preference.Platform, Equals, "platform")
+	c.Check(preference.Extra, Equals, "extra")
+	c.Check(preference.Price, Equals, "price")
+}
+
+func (s *StorageTest) TestGetUserPreferenceUserDoesNotHasPreferences(c *C) {
+	prefer := UserPreferences{
+		UserName: "username",
+	}
+	preference, err := prefer.GetUserPreferences()
+	c.Check(err, NotNil)
+	c.Check(err.Error(), Equals, "not found")
+	c.Check(preference.UserName, Equals, "")
 }
